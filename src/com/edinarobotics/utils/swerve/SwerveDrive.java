@@ -2,9 +2,6 @@ package com.edinarobotics.utils.swerve;
 
 import com.sun.squawk.util.MathUtils;
 
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SpeedController;
-
 public class SwerveDrive {
 
 	/**
