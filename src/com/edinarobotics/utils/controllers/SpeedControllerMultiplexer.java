@@ -9,6 +9,10 @@ public class SpeedControllerMultiplexer implements SpeedController {
         this.speedController = speedController;
     }
     
+    public SpeedController getSpeedController(int num) {
+    	return speedController[num];
+    }
+
     public double get() {
         for(int i = 0;i < speedController.length;i++) {
             speedController[i].get();
