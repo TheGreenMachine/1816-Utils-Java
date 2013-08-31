@@ -12,7 +12,10 @@ public class SwerveWheel {
 	 * Enumeration of location of wheels for easier handling.
 	 */
 	public static class WheelLocation {
-		private byte value;
+		/**
+		 * The byte value of the enumeration
+		 */
+		public byte val;
 		
 		public static final WheelLocation FRONT_LEFT = new WheelLocation((byte) 0);
 		public static final WheelLocation FRONT_RIGHT = new WheelLocation((byte) 1);
@@ -21,17 +24,17 @@ public class SwerveWheel {
 		
 		public boolean equals(Object other) {
 			if(other instanceof WheelLocation){
-                return ((WheelLocation) other).value == this.value;
+                return ((WheelLocation) other).val == this.val;
             }
             return false;
 		}
 		
-		public int hashCode(){
-            return new Byte(value).hashCode();
+		public int hashCode() {
+            return new Byte(val).hashCode();
         }
 		
 		private WheelLocation(byte value) {
-			this.value = value;
+			this.val = value;
 		}
 	}
 	
@@ -68,9 +71,9 @@ public class SwerveWheel {
 	 * @param speedEncoder The encoder on the wheel for speed sensing
 	 * @param angleEncoder The encoder on the wheel for angle sensing
 	 * @param lowerNoZone The lower limit of the no-rotation area, in degrees (-180 to 180 degrees,
-	 * 0 being straight forward
+	 * 0 being straight forward)
 	 * @param upperNoZone The upper limit of the no-rotation area, in degrees (-180 to 180 degrees,
-	 * 0 being straight forward
+	 * 0 being straight forward)
 	 */
 	public SwerveWheel(WheelLocation location, SpeedController speedController,
 			SpeedController angleController, Encoder speedEncoder, Encoder angleEncoder,
@@ -140,6 +143,21 @@ public class SwerveWheel {
 	 */
 	public boolean hasNoZones() {
 		return (lowerNoZone == upperNoZone);
+	}
+	
+	/**
+	 * Checks if the given angle falls in the no-rotation zone of the wheel
+	 * @param angle The angle to check against the no zone
+	 * @return true if angle is within no zone, false if it isn't
+	 */
+	public boolean isInNoZone(double angle) {
+		if(upperNoZone < lowerNoZone) {
+			// if limits range includes the -180/180 break
+			return (angle > lowerNoZone || angle < upperNoZone);
+		} else {
+			// if limits range DOESN'T include the -180/180 break
+			return (angle > lowerNoZone && angle < upperNoZone);
+		}
 	}
 	
 }
