@@ -4,5 +4,4 @@
 /build
 *.bak*
 /.classpath
-/.project
 /nbproject/private
