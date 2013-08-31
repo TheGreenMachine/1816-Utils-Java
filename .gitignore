@@ -1,0 +1,8 @@
+﻿
+/bin
+/.settings
+/build
+*.bak*
+/.classpath
+/.project
+/build.properties
