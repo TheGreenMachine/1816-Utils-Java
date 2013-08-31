@@ -68,9 +68,9 @@ public class SwerveWheel {
 	 * @param speedEncoder The encoder on the wheel for speed sensing
 	 * @param angleEncoder The encoder on the wheel for angle sensing
 	 * @param lowerNoZone The lower limit of the no-rotation area, in degrees (-180 to 180 degrees,
-	 * 0 being straight forward
+	 * 0 being straight forward)
 	 * @param upperNoZone The upper limit of the no-rotation area, in degrees (-180 to 180 degrees,
-	 * 0 being straight forward
+	 * 0 being straight forward)
 	 */
 	public SwerveWheel(WheelLocation location, SpeedController speedController,
 			SpeedController angleController, Encoder speedEncoder, Encoder angleEncoder,
@@ -140,6 +140,21 @@ public class SwerveWheel {
 	 */
 	public boolean hasNoZones() {
 		return (lowerNoZone == upperNoZone);
+	}
+	
+	/**
+	 * Checks if the given angle falls in the no-rotation zone of the wheel
+	 * @param angle The angle to check against the no zone
+	 * @return true if angle is within no zone, false if it isn't
+	 */
+	public boolean isInNoZone(double angle) {
+		if(upperNoZone < lowerNoZone) {
+			// if limits range includes the -180/180 break
+			return (angle > lowerNoZone || angle < upperNoZone);
+		} else {
+			// if limits range DOESN'T include the -180/180 break
+			return (angle > lowerNoZone && angle < upperNoZone);
+		}
 	}
 	
 }
