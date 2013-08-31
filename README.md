@@ -13,6 +13,7 @@ This is the Java code repository for FRC Team 1816's Utilities package. This pro
 You will need Apache Ant installed on your system to build this project. You will also need to have the SunSpot FRC SDK installed ("sunspotfrcsdk" directory in your HOME directory), with `networktables-crio.jar`, `squawk.jar` and `wpilibj.jar` in the `lib` folder.
 
 Then run:
+
     ant jar-app
 and the compiled `app.jar` will be present in the /build folder.
 
