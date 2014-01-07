@@ -14,8 +14,10 @@ public class AbsoluteMA3A10 extends AnalogAbsoluteEncoder{
      * analog channel.
      * @param analogChannel The analog channel to which the absolute encoder
      * is connected.
+     * @param angleOffset The angle offset to be applied in degrees. The angle
+     * offset is <i>added</i> to the returned angle.
      */
-    public AbsoluteMA3A10(AnalogChannel analogChannel){
-        super(analogChannel, 0.0, 5.0);
+    public AbsoluteMA3A10(AnalogChannel analogChannel, double angleOffset){
+        super(analogChannel, 0.0, 5.0, angleOffset);
     }
 }

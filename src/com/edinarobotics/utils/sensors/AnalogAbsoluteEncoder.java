@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.AnalogChannel;
  */
 public class AnalogAbsoluteEncoder {
     private AnalogChannel analogChannel;
-    private double minVolts, maxVolts;
+    private double minVolts, maxVolts, angleOffset;
     private boolean reversed;
     
     /**
@@ -19,8 +19,10 @@ public class AnalogAbsoluteEncoder {
      * @param analogChannel The analog channel of the absolute encoder.
      * @param voltage0Deg The voltage of the encoder at 0 degrees.
      * @param voltage360Deg The voltage of the encoder at 360 degrees.
+     * @param angleOffset The angle offset to be applied in degrees. The angle
+     * offset is <i>added</i> to the returned angle.
      */
-    public AnalogAbsoluteEncoder(AnalogChannel analogChannel, double voltage0Deg, double voltage360Deg){
+    public AnalogAbsoluteEncoder(AnalogChannel analogChannel, double voltage0Deg, double voltage360Deg, double angleOffset){
         this.analogChannel = analogChannel;
         minVolts = voltage0Deg;
         maxVolts = voltage360Deg;
@@ -31,6 +33,7 @@ public class AnalogAbsoluteEncoder {
             maxVolts = temp;
             reversed = true;
         }
+        this.angleOffset = angleOffset;
     }
     
     /**
@@ -46,7 +49,8 @@ public class AnalogAbsoluteEncoder {
      * Returns the angle read from the analog encoder in radians. This angle is
      * computed based on the voltages given to the constructor of
      * AnalogAbsoluteEncoder.
-     * @return The angle read from the analog encoder in radians.
+     * @return The angle read from the analog encoder in radians. The angle will
+     * always be in the range 0 to 2*pi.
      */
     public double getAngleRadians(){
         return Math.toRadians(getAngleDegrees());
@@ -56,13 +60,21 @@ public class AnalogAbsoluteEncoder {
      * Returns the angle read from the analog encoder in degrees. This angle is
      * computed based on the voltages given to the constructor of
      * AnalogAbsoluteEncoder.
-     * @return The angle read from the analog encoder in degrees.
+     * @return The angle read from the analog encoder in degrees. The angle will
+     * always be in the range 0 - 360.
      */
     public double getAngleDegrees(){
         double fractionAboveMin = (getVoltage() - minVolts) / (maxVolts - minVolts);
         double angle = 360.0 * fractionAboveMin;
         if(reversed){
             angle = 360.0 - angle;
+        }
+        angle += angleOffset;
+        if(angle < 0.0){
+            angle = 360.0 + angle;
+        }
+        if(angle > 360.0){
+            angle = angle - 360.0;
         }
         return angle;
     }
