@@ -18,6 +18,7 @@ public class PIDTuningManager {
     
     private PIDTuningManager(){
         pidTable = NetworkTable.getTable("pid");
+        pidTable.putBoolean("tuning", false);
         pidConfigs = new Hashtable();
     }
     
@@ -71,14 +72,25 @@ public class PIDTuningManager {
      * This method will handle the NetworkTable data exchange with the dashboard.
      */
     public void runTuning(){
-        pidTable.putString("subsystems", getConfigNames());
-        String systemName = pidTable.getString("system", "");
-        if(!systemName.equals((""))){
-            PIDConfig pidSystem = getPIDConfig(systemName);
-            pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
-                    pidTable.getNumber("d", 0), pidTable.getNumber("f", 0));
-            pidTable.putNumber("value", pidSystem.getValue());
-            pidTable.putNumber("setpoint", pidSystem.getSetpoint());
+        if(isTuningEnabled()){
+            //Set list of subsystems
+            pidTable.putString("subsystems", getConfigNames());
+            //Get actively selected subsystem name
+            String systemName = pidTable.getString("system", "");
+            if(!systemName.equals((""))){
+                //Get active PID subsystem
+                PIDConfig pidSystem = getPIDConfig(systemName);
+                //Set PIDF values
+                pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
+                        pidTable.getNumber("d", 0), pidTable.getNumber("f", 0));
+                //Send current setpoint and value to the tuning bench for feedback
+                pidTable.putNumber("value", pidSystem.getValue());
+                pidTable.putNumber("setpoint", pidSystem.getSetpoint());
+                //Get and set remote control values
+                pidSystem.setRemoteSetpoint(pidTable.getNumber("remotesetpoint", 0.0));
+                pidSystem.setRemoteRawControlValue(pidTable.getNumber("remotevalue", 0.0));
+                pidSystem.setRemoteControlMode(getEffectiveRemoteControlMode());
+            }
         }
     }
     
@@ -90,5 +102,50 @@ public class PIDTuningManager {
         for(Enumeration e = pidConfigs.elements(); e.hasMoreElements();){
             ((PIDConfig)e.nextElement()).reset();
         }
+    }
+    
+    /**
+     * Checks if PID tuning is currently enabled. This method can be used to
+     * determine whether PID tuning using NetworkTables is currently in
+     * progress.
+     * @return {@code true} if PID tuning is in progress, {@code false}
+     * otherwise.
+     */
+    private boolean isTuningEnabled(){
+        return pidTable.getBoolean("tuning", false);
+    }
+
+    /**
+     * Returns the remote control mode specified by the remote tuning
+     * system.
+     * @return The PIDRemoteControlMode specified by the remote tuning system. 
+     */
+    private PIDRemoteControlMode getRemoteControlMode(){
+        boolean remoteRequested = pidTable.getBoolean("remotecontrol", false);
+        if(!remoteRequested){
+            return PIDRemoteControlMode.NONE;
+        }
+        String remoteMode = pidTable.getString("remotecontrolmode", "");
+        if(remoteMode.equalsIgnoreCase("setpoint")){
+            return PIDRemoteControlMode.SETPOINT;
+        }
+        else if(remoteMode.equalsIgnoreCase("value")){
+            return PIDRemoteControlMode.VALUE;
+        }
+        return PIDRemoteControlMode.NONE;
+    }
+    
+    /**
+     * Returns the effective remote control mode specified by the remote
+     * tuning system, taking into account whether tuning is actually
+     * enabled. If tuning is not enabled, remote control is effectively
+     * not enabled.
+     * @return The effective remote control mode as described above.
+     */
+    private PIDRemoteControlMode getEffectiveRemoteControlMode(){
+        if(isTuningEnabled()){
+           return getRemoteControlMode();
+        }
+        return PIDRemoteControlMode.NONE;
     }
 }

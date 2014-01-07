@@ -4,11 +4,27 @@ package com.edinarobotics.utils.pid;
  * This class is used to exchange PID configuration data with PIDTuningManager.
  * It provides methods to get the latest P, I and D values set by the dashboard
  * and to provide value and setpoint feedback to the dashboard.
+ * <br/><br/>
+ * To use this class, send the PIDF values given by 
+ * {@link #getP(double)}, {@link #getI(double)}, {@link #getD(double)}, and
+ * {@link #getF(double)} to your PID controller to update its gains every
+ * iteration of your control loop.<br/>
+ * Each control loop, pass your desired setpoint value to the method
+ * {@link #setSetpoint(double)}, and then pass the result of
+ * {@link #getSetpoint()} to your PID controller as its setpoint. This allows
+ * the remote PID tuning system to remote control the setpoint of the system for
+ * easier tuning.<br/>
+ * Finally, if direct remote control of the raw control values (i.e. raw PWM
+ * values) is desired (for example to enable remote auto-tuning), if the result
+ * of {@link #shouldOverrideRawControl()} is {@code true}, disable your
+ * PID controller and use the result of {@link #getRemoteRawControlValue()} as
+ * the direct raw control value to your controller.
  */
 public class PIDConfig {
     private String name;
     boolean overrideDefault;
-    double p,i,d, f, value, setpoint;
+    PIDRemoteControlMode remoteControlMode;
+    double p, i, d, f, value, setpoint, remoteSetpoint, remoteControlValue;
     
     protected PIDConfig(String name){
         this.name = name;
@@ -114,10 +130,26 @@ public class PIDConfig {
     }
     
     /**
-     * Returns the last value set by {@link #setSetpoint(double)}.
-     * @return The last value set by setSetpoint(double).
+     * Returns the last value set by {@link #setSetpoint(double)} or
+     * the remote setpoint if the remote setpoint should be used. This value
+     * should be used by the PID controller as its target setpoint.
+     * @return The last value set by setSetpoint(double) or the remote
+     * target setpoint.
      */
     public double getSetpoint(){
+        if(getRemoteControlMode().equals(PIDRemoteControlMode.SETPOINT)){
+            return this.remoteSetpoint;
+        }
+        return setpoint;
+    }
+    
+    /**
+     * Returns the last value set by {@link #setSetpoint(double)}, ignoring
+     * any remote setpoint. This value should only be used if remote control
+     * of the setpoint is not allowable.
+     * @return The last value set by setSetpoint(double).
+     */
+    public double getLocalSetpoint(){
         return setpoint;
     }
     
@@ -139,11 +171,23 @@ public class PIDConfig {
     }
     
     /**
-     * Resets the P, I and D values of this PIDConfig to their default values.
-     * This method will undo any tuning performed by the dashboard.
+     * This method is used internally by PIDTuningManager to specify the remote
+     * PID tuning system's requested setpoint. It is used for remote control
+     * of the PID system.
+     * @param setpoint The setpoint specified by the remote tuning bench
+     * for remote control purposes.
+     */
+    protected void setRemoteSetpoint(double setpoint){
+        this.remoteSetpoint = setpoint;
+    }
+    
+    /**
+     * Resets the P, I, D, F and remote control values to their default states.
+     * This method will undo any tuning performed by the remote tuning system.
      */
     public void reset(){
         overrideDefault = false;
+        remoteControlMode = PIDRemoteControlMode.NONE;
     }
     
     /**
@@ -176,6 +220,36 @@ public class PIDConfig {
      * @return A String representation of this object.
      */
     public String toString(){
-        return "<PIDConfig "+p+":"+i+":"+d+":"+overrideDefault+">";
+        return "<PIDConfig "+p+":"+i+":"+d+":"+f+":"+overrideDefault+">";
+    }
+    
+    /**
+     * Returns the remote control mode specified by the remote tuning system for
+     * this PID system. This mode is used to set whether remote control
+     * specified values are used for the PID system.
+     * @return The remote control mode specified by the remote tuning system.
+     */
+    public PIDRemoteControlMode getRemoteControlMode(){
+        return this.remoteControlMode;
+    }
+    
+    public boolean isRemoteControlEnabled(){
+        return !getRemoteControlMode().equals(PIDRemoteControlMode.NONE);
+    }
+    
+    protected void setRemoteControlMode(PIDRemoteControlMode remoteMode){
+        this.remoteControlMode = remoteMode;
+    }
+    
+    public boolean shouldOverrideRawControl(){
+        return getRemoteControlMode().equals(PIDRemoteControlMode.VALUE);
+    }
+    
+    public double getRemoteRawControlValue(){
+        return this.remoteControlValue;
+    }
+    
+    protected void setRemoteRawControlValue(double value){
+        remoteControlValue = value;
     }
 }
