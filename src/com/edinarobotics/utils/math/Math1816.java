@@ -55,4 +55,26 @@ public final class Math1816 {
         //Only case left is negative
         return -1;
     }
+    
+    /**
+     * A convenience function that coerces a given number between maximum
+     * and minimum bounds.
+     * If the number is greater than the maximum value, return the maximum
+     * value; if the number is less than the minimum value, return the minimum
+     * value; otherwise, return the original number.
+     * @param max The maximum allowable value.
+     * @param min The minimum allowable value.
+     * @param num The number to be coerced.
+     * @return The given value coreced between the maximum and minimum
+     * limits.
+     */
+    public static double coerceValue(double max, double min, double num){
+        if(num >= max){
+            return max;
+        }
+        else if(num <= min){
+            return min;
+        }
+        return num;
+    }
 }
