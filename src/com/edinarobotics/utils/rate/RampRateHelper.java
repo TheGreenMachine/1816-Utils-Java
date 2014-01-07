@@ -107,7 +107,7 @@ public class RampRateHelper {
     }
     
     /**
-     * Returns the suggested <em>change<em> in the value in order to follow
+     * Returns the suggested <em>change</em> in the value in order to follow
      * the defined ramp rate.<br/>
      * The value defined by this method will ensure that the value will
      * reach the given target value in the shortest allowable time, as defined
