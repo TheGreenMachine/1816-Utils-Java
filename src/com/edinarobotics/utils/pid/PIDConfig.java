@@ -100,6 +100,37 @@ public class PIDConfig {
     }
     
     /**
+     * Returns all of the PIDF values that should be used. This method behaves
+     * analogously to get getP, getI, getD, and getF methods also in this
+     * PIDConfig.
+     * @param defaults The default PIDF values that should be used unless
+     * the remote tuning system has specified other values.
+     * @return The PIDF values that should be used, taking into account the
+     * values specified by the remote tuning system.
+     */
+    public PIDConstant getPID(PIDConstant defaults){
+        return new PIDConstant(getP(defaults.getP()),
+                getI(defaults.getI()), getD(defaults.getD()),
+                getF(defaults.getF()));
+    }
+    
+    /**
+     * Returns all of the PIDF values that should be used. This method behaves
+     * analogously to get getP, getI, getD, and getF methods also in this
+     * PIDConfig.
+     * @param p The default P value.
+     * @param i The default I value.
+     * @param d The default D value.
+     * @param f The default F value.
+     * @return The PIDF values that should be used, taking into account the
+     * values specified by the remote tuning system.
+     * @see #getPID(com.edinarobotics.utils.pid.PIDConstant)
+     */
+    public PIDConstant getPID(double p, double i, double d, double f){
+        return getPID(new PIDConstant(p, i, d, f));
+    }
+    
+    /**
      * Sets the value that should be sent as feedback to the dashboard
      * during the PID tuning process. This value should be the value
      * that is backing the PID controller. For example, it could be an
