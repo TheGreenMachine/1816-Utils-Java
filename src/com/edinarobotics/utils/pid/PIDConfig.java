@@ -264,22 +264,54 @@ public class PIDConfig {
         return this.remoteControlMode;
     }
     
+    /**
+     * Indicates whether the remote PID tuning system has requested some form
+     * of remote control capabilities over this system.
+     * This method does not indicate the type or scope of the remote control
+     * requested.
+     * @return {@code true} if remote control capabilities have been requested,
+     * {@code false} otherwise.
+     */
     public boolean isRemoteControlEnabled(){
         return !getRemoteControlMode().equals(PIDRemoteControlMode.NONE);
     }
     
+    /**
+     * This method is used internally by the PID tuning system to pass the
+     * remote control mode requested by the remote system to this PIDConfig.
+     * @param remoteMode The remote control mode requested by the remote
+     * PID tuning system.
+     */
     protected void setRemoteControlMode(PIDRemoteControlMode remoteMode){
         this.remoteControlMode = remoteMode;
     }
     
+    /**
+     * Indicates whether the remote PID tuning system has requested the ability
+     * to control the raw output signal to the components (i.e. the raw PWM
+     * value to a Jaguar).
+     * @return {@code true} if the remote PID tuning system has requested
+     * raw control over this system, {@code false} otherwise.
+     */
     public boolean shouldOverrideRawControl(){
         return getRemoteControlMode().equals(PIDRemoteControlMode.VALUE);
     }
     
+    /**
+     * Returns the raw value set by the remote system. This method
+     * <em>does not</em> check whether raw remote control is enabled. The user
+     * must check this using {@link #shouldOverrideRawControl()}.
+     * @return The raw value set by the remote PID tuning system.
+     */
     public double getRemoteRawControlValue(){
         return this.remoteControlValue;
     }
     
+    /**
+     * This method is used internally by this PID tuning system to indicate the
+     * raw control value set by the remote PID bench to this PIDConfig.
+     * @param value The raw control value set by the remote PID tuning bench.
+     */
     protected void setRemoteRawControlValue(double value){
         remoteControlValue = value;
     }
