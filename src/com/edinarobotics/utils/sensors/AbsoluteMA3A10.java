@@ -1,11 +1,12 @@
 package com.edinarobotics.utils.sensors;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.AnalogTrigger;
 
 /**
  * Implements an analog absolute encoder class for US Digital's
  * analog (A10) model of the MA3 series of absolute encoders.
- * These encoder read from 0V-5V over a range of 0 - 360 degrees.
+ * These encoders read from 0V-5V over a range of 0 - 360 degrees.
  */
 public class AbsoluteMA3A10 extends AnalogAbsoluteEncoder{
     
@@ -16,8 +17,11 @@ public class AbsoluteMA3A10 extends AnalogAbsoluteEncoder{
      * is connected.
      * @param angleOffset The angle offset to be applied in degrees. The angle
      * offset is <i>added</i> to the returned angle.
+     * @param reverseReadDirection If {@code true} the encoder will have its
+     * increasing angle direction reversed. The rotation direction that would
+     * normally count up will instead count down.
      */
-    public AbsoluteMA3A10(AnalogChannel analogChannel, double angleOffset){
-        super(analogChannel, 0.0, 5.0, angleOffset);
+    public AbsoluteMA3A10(AnalogChannel analogChannel, double angleOffset, boolean reverseReadDirection){
+        super(analogChannel, 0.0, 5.0, angleOffset, reverseReadDirection);
     }
 }
