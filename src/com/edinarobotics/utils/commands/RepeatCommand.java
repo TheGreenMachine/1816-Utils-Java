@@ -1,5 +1,6 @@
 package com.edinarobotics.utils.commands;
 
+import edu.wpi.first.wpilibj.buttons.InternalButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,6 +12,9 @@ public class RepeatCommand extends Command {
     private Command commandToRepeat;
     private final int REPETITIONS;
     private int timesStarted;
+    private InternalButton button;
+    private byte needToStartCommand;
+    private static final byte START_COMMAND_THRESHOLD = 2;
     
     /**
      * Constructs a RepeatCommand to repeat the {@code commandToRepeat} for the
@@ -24,6 +28,9 @@ public class RepeatCommand extends Command {
         this.commandToRepeat = commandToRepeat;
         this.REPETITIONS = repetitions;
         timesStarted = 0;
+        button = new InternalButton();
+        button.whenPressed(this.commandToRepeat);
+        this.needToStartCommand = 0;
         
         if(repetitions < 0) {
             throw new IllegalArgumentException("Repetitions cannot be negative.");
@@ -31,10 +38,14 @@ public class RepeatCommand extends Command {
     }
 
     /**
-     * (re)Sets the number of times the {@code commandToRepeat} has repeated to 0.
+     * Resets the number of times the {@code commandToRepeat} has repeated to 0.
+     * This method prepares RepeatCommand for another round of command repetition.
      */
     protected void initialize() {
         timesStarted = 0;
+        button.setPressed(false);
+        this.commandToRepeat.cancel();
+        this.needToStartCommand = 0;
     }
 
     /**
@@ -43,9 +54,18 @@ public class RepeatCommand extends Command {
      */
     protected void execute() {
         if(timesStarted < REPETITIONS) {
-            if(!commandToRepeat.isRunning()) {
-                commandToRepeat.start();
+            if(!commandToRepeat.isRunning() && needToStartCommand < START_COMMAND_THRESHOLD) {
+                needToStartCommand++;
+                button.setPressed(false);
+            }
+            if(!commandToRepeat.isRunning() && needToStartCommand <= (START_COMMAND_THRESHOLD)){
+                button.setPressed(true);
+                needToStartCommand++;
+            }
+            else if(!commandToRepeat.isRunning() && needToStartCommand >= (START_COMMAND_THRESHOLD+1)){
+                button.setPressed(false);
                 timesStarted++;
+                needToStartCommand = 0;
             }
         }
     }
@@ -58,7 +78,14 @@ public class RepeatCommand extends Command {
         return timesStarted >= REPETITIONS && !commandToRepeat.isRunning();
     }
 
+    /**
+     * Shuts down RepeatCommand after it has repeated the command the requested
+     * number of times.
+     */
     protected void end() {
+        button.setPressed(false);
+        needToStartCommand = 0;
+        timesStarted = 0;
     }
 
     /**
@@ -69,6 +96,6 @@ public class RepeatCommand extends Command {
         if(commandToRepeat.isRunning()) {
             commandToRepeat.cancel();
         }
+        end();
     }
-    
 }
