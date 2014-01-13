@@ -21,7 +21,8 @@ public class CANJaguarSwerveWheel extends SwerveWheel {
     private final int encoderCountsPerRev;
     private final PIDConstant pidDefaults;
     
-    public CANJaguarSwerveWheel(String name, Vector2 position, CANJaguar jaguar, int encoderCountsPerRev, double wheelCircumference, PIDConstant pidConstants){
+    public CANJaguarSwerveWheel(String name, Vector2 position, CANJaguar jaguar,
+            int encoderCountsPerRev, double wheelCircumference, PIDConstant pidConstants){
         super(name, position);
         this.jaguar = jaguar;
         this.velocity = 0;

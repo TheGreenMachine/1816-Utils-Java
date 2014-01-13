@@ -11,5 +11,6 @@ import com.edinarobotics.utils.math.Vector2;
  *
  */
 public abstract class SwerveStrategy {
-    public abstract void doSwerve(SwerveRotationGroup[] chassisComponents, Vector2 directionMPerSec, double rotationRadSecCW); //UNITS m, rad, rad/s, m/s
+    public abstract void doSwerve(SwerveRotationGroup[] chassisComponents,
+            Vector2 directionMPerSec, double rotationRadSecCW); //UNITS m, rad, rad/s, m/s
 }

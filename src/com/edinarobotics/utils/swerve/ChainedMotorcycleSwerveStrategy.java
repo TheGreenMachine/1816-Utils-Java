@@ -27,8 +27,8 @@ public class ChainedMotorcycleSwerveStrategy extends SwerveStrategy{
             double w_xi = v_x + (omega_v * y_i);
             double w_yi = v_y + (omega_v * x_i);
             
-            double steerAngle = normalizeAngle((180.0/Math.PI)*MathUtils.atan2(w_xi, w_yi));
-            double steerAngleOpp = normalizeAngle(steerAngle + Math.PI);
+            double steerAngle = (180.0/Math.PI)*MathUtils.atan2(w_xi, w_yi);
+            double steerAngleOpp = steerAngle + Math.PI;
             
             double steerAngleDist = Math.abs(rotGroup.getMeasuredAngle() - steerAngle);
             double steerAngleDistOpp = Math.abs(rotGroup.getMeasuredAngle() - steerAngleOpp);
@@ -43,14 +43,15 @@ public class ChainedMotorcycleSwerveStrategy extends SwerveStrategy{
                     if(rotGroup.getAngleRestriction().isValidAngle(otherAngle)){
                         //But the other angle's ok
                         rotGroup.setAngle(otherAngle);
+                        rotGroup.setShouldReverseSpeed(true);
                     }
                     else{
                         //Let's just go with the closes legal angle to the one we wanted.
                         rotGroup.setAngle(rotGroup.getAngleRestriction().getClosestAngle(selectedAngle));
+                        rotGroup.setShouldReverseSpeed(false);
                     }
                 }
-            }
-            else{
+            } else {
                 double selectedAngle = steerAngleOpp;
                 double otherAngle = steerAngle;
                 //Steer angle is best
@@ -59,10 +60,12 @@ public class ChainedMotorcycleSwerveStrategy extends SwerveStrategy{
                     if(rotGroup.getAngleRestriction().isValidAngle(otherAngle)){
                         //But the other angle's ok
                         rotGroup.setAngle(otherAngle);
+                        rotGroup.setShouldReverseSpeed(false);
                     }
                     else{
                         //Let's just go with the closes legal angle to the one we wanted.
                         rotGroup.setAngle(rotGroup.getAngleRestriction().getClosestAngle(selectedAngle));
+                        rotGroup.setShouldReverseSpeed(true);
                     }
                 }
             }
@@ -82,7 +85,12 @@ public class ChainedMotorcycleSwerveStrategy extends SwerveStrategy{
                 double w_xi = v_x + (omega_v * y_i);
                 double w_yi = v_y + (omega_v * x_i);
                 double velocity = Math.sqrt(MathUtils.pow(w_xi, 2) + MathUtils.pow(w_yi, 2));
-                wheel.setVelocity(velocity);
+                if(rotGroup.getShouldReverseSpeed()) {
+                    wheel.setVelocity(-velocity);
+                } else {
+                    wheel.setVelocity(velocity);
+                }
+                
             }
         }//Annnnnnd... we're done.
     }

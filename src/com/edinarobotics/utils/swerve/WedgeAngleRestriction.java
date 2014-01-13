@@ -13,8 +13,8 @@ public class WedgeAngleRestriction extends AngleRestriction{
     private boolean reverseLogic;
     
     public WedgeAngleRestriction(double startAngleRadians, double endAngleRadians){
-        startAngle = normalizeAngle(startAngleRadians);
-        endAngle = normalizeAngle(endAngleRadians);
+        startAngle = startAngleRadians;
+        endAngle = endAngleRadians;
         reverseLogic = false;
         if(endAngle < startAngle){
             reverseLogic = true;
@@ -25,7 +25,7 @@ public class WedgeAngleRestriction extends AngleRestriction{
     }
     
     public boolean isValidAngle(double angleRadians){
-        double workingAngle = normalizeAngle(angleRadians);
+        double workingAngle = angleRadians;
         boolean result = (workingAngle >= startAngle) && (workingAngle <= endAngle);
         if(reverseLogic){
             result = !result;
@@ -34,7 +34,7 @@ public class WedgeAngleRestriction extends AngleRestriction{
     }
     
     public double getClosestAngle(double angleRadians){
-        double workingAngle = normalizeAngle(angleRadians);
+        double workingAngle = angleRadians;
         if(isValidAngle(workingAngle)){
             return workingAngle;
         }

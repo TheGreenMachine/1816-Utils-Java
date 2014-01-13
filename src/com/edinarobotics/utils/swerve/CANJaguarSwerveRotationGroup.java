@@ -17,13 +17,15 @@ public class CANJaguarSwerveRotationGroup extends SwerveRotationGroup{
     private PIDController pidController;
     private AnalogAbsoluteEncoder encoder;
     private ReadablePIDOutput pidOut;
-    private AngleRestriction angleRestriction;
+    //private AngleRestriction angleRestriction; IS PROTECTED IN SUPERCLASS
     private CANJaguar rotationJaguar;
     private double targetAngle = 0.0;
     private boolean lastSetWasRemote = false;
     private double ROTATION_SPEED_FACTOR = 0.2;
     
-    public CANJaguarSwerveRotationGroup(String name, SwerveWheel[] wheels, AngleRestriction angleRestriction, CANJaguar rotationJaguar, AnalogAbsoluteEncoder encoder, PIDConstant pidConstants){
+    public CANJaguarSwerveRotationGroup(String name, SwerveWheel[] wheels,
+            AngleRestriction angleRestriction, CANJaguar rotationJaguar,
+            AnalogAbsoluteEncoder encoder, PIDConstant pidConstants){
         super(name, wheels, angleRestriction);
         this.rotationJaguar = rotationJaguar;
         this.pidDefaults = pidConstants;
@@ -35,7 +37,8 @@ public class CANJaguarSwerveRotationGroup extends SwerveRotationGroup{
             this.rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPercentVbus);
         } catch(CANTimeoutException ex){
             ex.printStackTrace();
-            logger.log(Level.SEVERE, "Could not communicate with CANJaguar during construction. Timeout.");
+            logger.log(Level.SEVERE, "Could not communicate with CANJaguar during"
+                    + "construction. Timeout.");
         }
         pidController.enable();
     }
@@ -78,7 +81,8 @@ public class CANJaguarSwerveRotationGroup extends SwerveRotationGroup{
                 //YES RAW REMOTE CONTROL
                 lastSetWasRemote = true;
                 pidController.disable();
-                rotationJaguar.setX(Math1816.coerceValue(1.0, -1.0, pidConfig.getRemoteRawControlValue())*ROTATION_SPEED_FACTOR);
+                rotationJaguar.setX(Math1816.coerceValue(1.0, -1.0,
+                        pidConfig.getRemoteRawControlValue())*ROTATION_SPEED_FACTOR);
             }
             if(!angleRestriction.isValidAngle(getMeasuredAngle())){
                 lastSetWasRemote = true;

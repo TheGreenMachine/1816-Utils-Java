@@ -25,6 +25,7 @@ public class SwerveChassis {
     public void setSwerve(Vector2 direction, double rotationRadSec){
         this.direction = direction;
         this.rotationRadSec = rotationRadSec;
+        this.update();
     }
     
     public Vector2 getDirection(){
