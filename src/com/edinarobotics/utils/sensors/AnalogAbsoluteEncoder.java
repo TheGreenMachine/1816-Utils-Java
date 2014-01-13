@@ -1,5 +1,6 @@
 package com.edinarobotics.utils.sensors;
 
+import com.edinarobotics.utils.common.Updatable;
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.PIDSource;
 
@@ -8,7 +9,7 @@ import edu.wpi.first.wpilibj.PIDSource;
  * task of working with absolute encoders by performing all required voltage
  * calculations and returning a simple angle.
  */
-public class AnalogAbsoluteEncoder implements PIDSource{
+public class AnalogAbsoluteEncoder implements PIDSource, Updatable{
     private AnalogChannel analogChannel;
     private double minVolts, maxVolts, angleOffset, lastAngle, zeroingOffset;
     private boolean reversed, reverseReadDirection;
