@@ -6,8 +6,8 @@ This is the Java code repository for FRC Team 1816's Utilities package. This pro
 ##Features
 * Pre-defined utility commands for command-based robot programming
 * Abstracted Gamepad classes representing a standard two-joystick gamepad, with various filters and scaling abilities
-* PID Tuning through Driver Station dashboard
-* SwerveDrive robot classes
+* PID Tuning through standalone tuning system
+* Hierarchical logging framework
 
 ##Build Instructions
 You will need Apache Ant installed on your system to build this project. You will also need to have the SunSpot FRC SDK installed ("sunspotfrcsdk" directory in your HOME directory), with `networktables-crio.jar`, `squawk.jar` and `wpilibj.jar` in the `lib` folder.
