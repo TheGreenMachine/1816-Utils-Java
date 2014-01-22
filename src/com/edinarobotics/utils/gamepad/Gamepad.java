@@ -1,6 +1,7 @@
 package com.edinarobotics.utils.gamepad;
 
 import com.edinarobotics.utils.gamepad.buttons.DPadButton;
+import com.edinarobotics.utils.math.Vector2;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -8,7 +9,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 /**
  * This class implements a simple interface for interacting with standard
  * gamepads. This interface was designed with the Logitech Dual Action or
- * Logitech F310 button layouts in mind. <br/><br/>
+ * Logitech F310 (in "D" mode) button layouts in mind. <br/><br/>
  * 
  * The buttons have been given names to avoid dependence on their internal
  * numbers.
@@ -94,6 +95,34 @@ public class Gamepad {
      */
     public double getRightY(){
         return -joystick.getRawAxis(4);
+    }
+    
+    /**
+     * Returns the state of the left joystick as a Vector2.
+     * This vector 2 contains the state of the x- and y- axis of the joystick.
+     * @return A Vector2 representing the state of the left joystick.
+     */
+    public Vector2 getLeftJoystick(){
+        return new Vector2(getLeftX(), getLeftY());
+    }
+    
+    /**
+     * Returns the state of the right joystick as a Vector2.
+     * This vector 2 contains the state of the x- and y- axis of the joystick.
+     * @return A Vector2 representing the state of the right joystick.
+     */
+    public Vector2 getRightJoystick(){
+        return new Vector2(getRightX(), getRightY());
+    }
+    
+    /**
+     * Returns the state of the gamepad's joysticks together in a
+     * GamepadAxisState.
+     * @return A GamepadAxisState object containing the states of all the
+     * joystick axes on this Gamepad.
+     */
+    public GamepadAxisState getGamepadAxisState(){
+        return new GamepadAxisState(getLeftJoystick(), getRightJoystick());
     }
     
     /**
