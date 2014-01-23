@@ -19,9 +19,11 @@ public class PrintFormatter implements Formatter {
     /**
      * Formats a given LogEvent object into a format suitable for printing.
      * 
-     * A possible output is:
-     * {@code [SEVERE] full.logger.name: An error occurred.}
-     * {@code     Exception: If there is an exception, it goes here.}
+     * A possible output is: <br/>
+     * <pre>
+     * [SEVERE] full.logger.name: An error occurred.
+     *     Exception: If there is an exception, it goes here.
+     * </pre>
      * @param event The LogEvent object to be formatted by this Formatter.
      * @return A human-readable String representing this LogEvent, that
      * is suitable for printing.
