@@ -5,7 +5,7 @@ package com.edinarobotics.utils.common;
  * 
  * Classes implementing this interface are likely indicating that they have
  * some internal state that must be tracked continuously. Users should attempt
- * to call the classes' {@link #update()} methods during each control loop.
+ * to call the class's {@link #update()} methods during each control loop.
  */
 public interface Updatable {
     
