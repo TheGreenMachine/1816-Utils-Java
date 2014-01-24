@@ -1,6 +1,7 @@
 package com.edinarobotics.utils.wheel;
 
 import com.edinarobotics.utils.common.Updatable;
+import com.edinarobotics.utils.math.Math1816;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
@@ -53,7 +54,7 @@ public class Wheel implements Updatable {
      * @param power 
      */
     public void setPower(double power) {
-        this.power = power;
+        this.power = Math1816.coerceValue(1.0, -1.0, power);
         update();
     }
     
