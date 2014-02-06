@@ -29,7 +29,7 @@ public class FilteredGamepad extends Gamepad{
      * being filtered by the given GamepadFilterSet.
      */
     public Vector2 getLeftJoystick(){
-        return filters.filter(super.getGamepadAxisState()).getLeftJoystick();
+        return getGamepadAxisState().getLeftJoystick();
     }
     
     /**
@@ -39,7 +39,7 @@ public class FilteredGamepad extends Gamepad{
      * being filtered by the given GamepadFilterSet.
      */
     public Vector2 getRightJoystick(){
-        return filters.filter(super.getGamepadAxisState()).getRightJoystick();
+        return getGamepadAxisState().getRightJoystick();
     }
     
     /**
@@ -49,7 +49,7 @@ public class FilteredGamepad extends Gamepad{
      * @return A GamepadAxisState object containing the states of all the
      * joystick axes on this Gamepad.
      */
-    public GamepadAxisState getAxisState(){
+    public GamepadAxisState getGamepadAxisState(){
         return filters.filter(super.getGamepadAxisState());
     }
     

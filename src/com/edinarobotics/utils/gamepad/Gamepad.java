@@ -122,7 +122,9 @@ public class Gamepad {
      * joystick axes on this Gamepad.
      */
     public GamepadAxisState getGamepadAxisState(){
-        return new GamepadAxisState(getLeftJoystick(), getRightJoystick());
+        Vector2 left = new Vector2(getLeftX(), getLeftY());
+        Vector2 right = new Vector2(getRightX(), getRightY());
+        return new GamepadAxisState(left, right);
     }
     
     /**
