@@ -25,12 +25,6 @@ public class Gamepad {
     private Button dPadLeft, dPadDown, dPadRight, dPadUp;
     private static final double DPAD_THRESHOLD = 0.9;
     
-    //Gamepad axis constants
-    private static final int LEFT_X = 1;
-    private static final int LEFT_Y = 2;
-    private static final int RIGHT_X = 3;
-    private static final int RIGHT_Y = 4;
-    
     /**
      * Constructs a new Gamepad given its port number.
      * @param port The port number of the gamepad to be read.
@@ -70,7 +64,7 @@ public class Gamepad {
      * @return The current value of the x-axis of the left joystick.
      */
     public double getLeftX(){
-        return joystick.getRawAxis(LEFT_X);
+        return joystick.getRawAxis(1);
     }
     
     /**
@@ -80,7 +74,7 @@ public class Gamepad {
      * @return The current value of the y-axis of the left joystick.
      */
     public double getLeftY(){
-        return -joystick.getRawAxis(LEFT_Y);
+        return -joystick.getRawAxis(2);
     }
     
     /**
@@ -90,7 +84,7 @@ public class Gamepad {
      * @return The current value of the x-axis of the right joystick.
      */
     public double getRightX(){
-        return joystick.getRawAxis(RIGHT_X);
+        return joystick.getRawAxis(3);
     }
     
     /**
@@ -100,7 +94,7 @@ public class Gamepad {
      * @return The current value of the y-axis of the right joystick.
      */
     public double getRightY(){
-        return -joystick.getRawAxis(RIGHT_Y);
+        return -joystick.getRawAxis(4);
     }
     
     /**
@@ -128,14 +122,8 @@ public class Gamepad {
      * joystick axes on this Gamepad.
      */
     public GamepadAxisState getGamepadAxisState(){
-        //This method recomputes values so we avoid infinite loops
-        //in FilteredGamepad.
-        double leftx = joystick.getRawAxis(LEFT_X);
-        double lefty = joystick.getRawAxis(LEFT_Y);
-        double rightx = joystick.getRawAxis(RIGHT_X);
-        double righty = joystick.getRawAxis(RIGHT_Y);
-        Vector2 left = new Vector2(leftx, lefty);
-        Vector2 right = new Vector2(rightx, righty);
+        Vector2 left = new Vector2(getLeftX(), getLeftY());
+        Vector2 right = new Vector2(getRightX(), getRightY());
         return new GamepadAxisState(left, right);
     }
     

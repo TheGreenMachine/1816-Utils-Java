@@ -51,7 +51,16 @@ public class FilteredGamepad extends Gamepad{
      * joystick axes on this Gamepad.
      */
     public GamepadAxisState getGamepadAxisState(){
-        return filters.filter(super.getGamepadAxisState());
+        //This method recomputes values so we avoid infinite loops
+        //in FilteredGamepad.
+        double leftx = super.getLeftX();
+        double lefty = super.getLeftY();
+        double rightx = super.getRightX();
+        double righty = super.getRightY();
+        Vector2 left = new Vector2(leftx, lefty);
+        Vector2 right = new Vector2(rightx, righty);
+        GamepadAxisState state = new GamepadAxisState(left, right);
+        return filters.filter(state);
     }
     
     /**
