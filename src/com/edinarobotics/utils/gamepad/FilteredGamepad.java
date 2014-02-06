@@ -20,6 +20,7 @@ public class FilteredGamepad extends Gamepad{
      */
     public FilteredGamepad(int port, GamepadFilterSet filterSet){
         super(port);
+        this.filters = filterSet;
     }
     
     /**
