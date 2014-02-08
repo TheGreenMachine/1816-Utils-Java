@@ -19,10 +19,10 @@ public abstract class SimpleGamepadFilter implements GamepadFilter {
      * axes.
      */
     public GamepadAxisState filter(GamepadAxisState toFilter){
-        double leftX = toFilter.getLeftJoystick().getX();
-        double leftY = toFilter.getLeftJoystick().getY();
-        double rightX = toFilter.getRightJoystick().getX();
-        double rightY = toFilter.getRightJoystick().getY();
+        double leftX = applyFilter(toFilter.getLeftJoystick().getX());
+        double leftY = applyFilter(toFilter.getLeftJoystick().getY());
+        double rightX = applyFilter(toFilter.getRightJoystick().getX());
+        double rightY = applyFilter(toFilter.getRightJoystick().getY());
         Vector2 left = new Vector2(leftX, leftY);
         Vector2 right = new Vector2(rightX, rightY);
         return new GamepadAxisState(left, right);
