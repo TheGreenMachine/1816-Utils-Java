@@ -75,7 +75,7 @@ public class GamepadAxisState {
      * the gamepad's right joystick in degrees (-180 to 180). This return value
      * is suitable to be passed into RobotDrive.
      * @return the current direction of the Vector2 representing the state of
-     * the gamepad's right joystick in radians (-180 to 180).
+     * the gamepad's right joystick in degrees (-180 to 180).
      */
     public double getRightDirection() {
         return Math.toDegrees(MathUtils.atan2(right.getY(), right.getX()));
