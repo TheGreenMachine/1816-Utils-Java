@@ -11,7 +11,7 @@ public interface GamepadFilter {
     /**
      * Filters the values of the gamepad's joystick axes.
      * @param toFilter The state of the gamepad's joystick axes to be filtered.
-     * @return A new GamepadAxisState representing th filtered state of the
+     * @return A new GamepadAxisState representing the filtered state of the
      * gamepad's joystick axes.
      */
     public GamepadAxisState filter(GamepadAxisState toFilter);
