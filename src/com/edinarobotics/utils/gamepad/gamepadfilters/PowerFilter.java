@@ -9,15 +9,15 @@ import com.sun.squawk.util.MathUtils;
  * after being passed through this filter. Use this filter to produce a
  * "flatter" zone near the origin.
  */
-public class GamepadPowerFilter extends SimpleGamepadFilter{
+public class PowerFilter extends SimpleGamepadJoystickFilter{
     private final int power;
     
     /**
-     * Constructs a new GamepadPowerFilter that raises the gamepad axis values
+     * Constructs a new PowerFilter that raises the gamepad axis values
      * to the given power.
      * @param power The power to which each gamepad axis value is to be raised.
      */
-    public GamepadPowerFilter(int power){
+    public PowerFilter(int power){
         this.power = power;
     }
 
