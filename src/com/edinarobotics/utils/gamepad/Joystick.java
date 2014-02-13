@@ -1,6 +1,7 @@
 package com.edinarobotics.utils.gamepad;
 
 import com.edinarobotics.utils.gamepad.buttons.HatSwitchButton;
+import com.edinarobotics.utils.math.Vector2;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -84,6 +85,25 @@ public class Joystick {
      */
     public double getTwist(){
         return joystick.getRawAxis(3);
+    }
+    
+    /**
+     * Returns a new Vector2 representing the state of the joystick.
+     * 
+     * The Vector2 contains the state of the x- and y- axes of the joystick.
+     * @return A Vector2 representing the state of the joystick.
+     */
+    public Vector2 getJoystick(){
+        return new Vector2(getX(), getY());
+    }
+    
+    /**
+     * Returns the state of the joystick axes together in a JoystickAxisState.
+     * @return A JoystickAxisState object containing the states of all the
+     * axes on this Joystick.
+     */
+    public JoystickAxisState getJoystickAxisState(){
+        return new JoystickAxisState(getJoystick(), getTwist(), getThrottle());
     }
     
     /**
