@@ -52,6 +52,16 @@ public class JoystickButtons {
     private byte getValue(){
         return value;
     }
+
+    /**
+     * Computes an integer hash code value for this GamepadButtons object.
+     * @return An integer hash code value for this GamepadButtons object.
+     */
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + this.value;
+        return hash;
+    }
     
     /**
      * Tests this object against another for equality. Another object is
