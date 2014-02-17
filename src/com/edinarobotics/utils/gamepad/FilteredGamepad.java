@@ -8,7 +8,7 @@ import com.edinarobotics.utils.math.Vector2;
  * a given GamepadFilterSet.
  */
 public class FilteredGamepad extends Gamepad{
-    GamepadFilterSet filters;
+    private GamepadFilterSet filters;
     
     /**
      * Constructs a new FilteredGamepad that will send the axis results

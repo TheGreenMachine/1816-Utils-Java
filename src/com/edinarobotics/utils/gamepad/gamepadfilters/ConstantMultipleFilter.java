@@ -6,15 +6,15 @@ package com.edinarobotics.utils.gamepad.gamepadfilters;
  * axis and values greater than {@code 1} can bring the axis range outside of
  * the standard {@code -1} to {@code 1} range.
  */
-public class GamepadConstantMultipleFilter extends SimpleGamepadFilter{
+public class ConstantMultipleFilter extends SimpleGamepadJoystickFilter{
     private final double multiplier;
     
     /**
-     * Constructs a new GamepadConstantMultipleFilter that will multiply each
+     * Constructs a new ConstantMultipleFilter that will multiply each
      * axis value by the given multiplier.
      * @param multiplier The multiplier to be applied to each axis value.
      */
-    public GamepadConstantMultipleFilter(double multiplier){
+    public ConstantMultipleFilter(double multiplier){
         this.multiplier = multiplier;
     }
 
