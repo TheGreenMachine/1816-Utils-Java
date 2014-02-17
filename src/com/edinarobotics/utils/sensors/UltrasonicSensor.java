@@ -4,32 +4,26 @@ import edu.wpi.first.wpilibj.AnalogChannel;
 
 public class UltrasonicSensor {
     private AnalogChannel analogChannel;
-    private double startVoltage;
-    private double startDistance;
     private double scale;
     
     private final boolean isScaled;
     
     public UltrasonicSensor(int sensorChannel) {
         analogChannel = new AnalogChannel(sensorChannel);
-        
         isScaled = false;
     }
 
-    public UltrasonicSensor(int sensorChannel, double startVoltage, double endVoltage, double startDistance, double endDistance) {
+    public UltrasonicSensor(int sensorChannel, double scale) {
         analogChannel = new AnalogChannel(sensorChannel);
-        this.startVoltage = startVoltage;
-        this.startDistance = startDistance;
-        
-        scale = (endDistance - startDistance) / (endVoltage - startVoltage);
+        this.scale = scale;
         isScaled = true;
     }
     
     public double getDistance() {
-        if (isScaled) {
-            return scale * (getVoltage() -  startVoltage) + startDistance;
+        if(isScaled) {
+            return scale * getVoltage();
         }
-        return -1;
+        return getVoltage();
     }
     
     public double getVoltage() {
