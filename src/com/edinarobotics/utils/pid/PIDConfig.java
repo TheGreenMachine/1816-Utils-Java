@@ -14,11 +14,17 @@ package com.edinarobotics.utils.pid;
  * {@link #getSetpoint()} to your PID controller as its setpoint. This allows
  * the remote PID tuning system to remote control the setpoint of the system for
  * easier tuning.<br/>
+ * Each control loop, call the method {@link #setValue(double)} with the
+ * current output of whatever sensor is being used to measure the state of the
+ * system. This provides feedback on the state of the system to the PID
+ * tuning bench.<br/>
  * Finally, if direct remote control of the raw control values (i.e. raw PWM
  * values) is desired (for example to enable remote auto-tuning), if the result
  * of {@link #shouldOverrideRawControl()} is {@code true}, disable your
  * PID controller and use the result of {@link #getRemoteRawControlValue()} as
- * the direct raw control value to your controller.
+ * the direct raw control value to your controller. However, the method
+ * {@link #setValue(double)} should still be called to report on the current
+ * state of the system.
  */
 public class PIDConfig {
     private String name;
