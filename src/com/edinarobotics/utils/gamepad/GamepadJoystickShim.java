@@ -277,7 +277,7 @@ public class GamepadJoystickShim {
         }
         // Find the hat buttons
         if(joystickButton.equals(JoystickButtons.HAT_BUTTON_LEFT_TOP)){
-            return hashtableButton(joystickButton, new ButtonShim(joystick.hatButtonLheftTop()));
+            return hashtableButton(joystickButton, new ButtonShim(joystick.hatButtonLeftTop()));
         }
         if(joystickButton.equals(JoystickButtons.HAT_BUTTON_LEFT_BOTTOM)){
             return hashtableButton(joystickButton, new ButtonShim(joystick.hatButtonLeftBottom()));
