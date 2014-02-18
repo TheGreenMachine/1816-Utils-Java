@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.SpeedController;
  * Wheel represents an abstract wheel that has a {@link SpeedController}
  * implementation.
  */
-public class Wheel implements Updatable {
+public class Wheel implements Updatable, SpeedController {
     private SpeedController speedController;
     private String name;
     protected double power;
+    private boolean isReversed;
     
     /**
      * Constructs a Wheel object.
@@ -19,10 +20,11 @@ public class Wheel implements Updatable {
      * Eg. "FRONT_LEFT"
      * @param speedController The speed controller for this wheel's motor.
      */
-    public Wheel(String name, SpeedController speedController) {
+    public Wheel(String name, SpeedController speedController, boolean isReversed) {
         this.name = name;
         this.speedController = speedController;
         this.power = 0;
+        this.isReversed = isReversed;
     }
     
     /**
@@ -54,6 +56,9 @@ public class Wheel implements Updatable {
      * @param power 
      */
     public void setPower(double power) {
+        if(isReversed) {
+            power*=-1;
+        }
         this.power = Math1816.coerceValue(1.0, -1.0, power);
         update();
     }
@@ -63,6 +68,27 @@ public class Wheel implements Updatable {
      */
     public void update() {
         speedController.set(power);
+    }
+
+    public double get() {
+        return getPower();
+    }
+
+    public void set(double d, byte b) {
+        setPower(d);
+    }
+
+    public void set(double d) {
+        setPower(d);
+    }
+
+    public void disable() {
+        setPower(0.0);
+        speedController.disable();
+    }
+
+    public void pidWrite(double d) {
+        setPower(d);
     }
     
 }
