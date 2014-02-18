@@ -172,7 +172,7 @@ public class Joystick {
      * switch.
      * @return A Button object for the left upper hat button.
      */
-    public Button hatButtonLheftTop(){
+    public Button hatButtonLeftTop(){
         return hatButtonLeftTop;
     }
     
