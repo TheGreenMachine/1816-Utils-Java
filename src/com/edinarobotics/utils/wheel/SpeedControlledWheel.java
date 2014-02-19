@@ -14,17 +14,14 @@ public class SpeedControlledWheel extends Wheel {
     private PIDController pidController;
     private PIDConfig pidConfig;
     private Encoder encoder;
-    private SpeedController speedController;
     private double maxWheelRPM;
     private double targetWheelRPM;
-    private boolean reversed;
     
-    private final double GEAR_RATIO;
+    private final double GEAR_RATIO; // Ratio is (wheel / encoder)
     
     public SpeedControlledWheel(String name, SpeedController speedController, double maxWheelRPM, 
             PIDConstant pidConstant, Encoder encoder, double gearRatio, double rotationsPerPulse, boolean reversed) {
         super(name, speedController, reversed);
-        this.speedController = speedController;
         this.defaultPID = pidConstant;
         this.GEAR_RATIO = gearRatio;
         this.encoder = encoder;
@@ -33,56 +30,44 @@ public class SpeedControlledWheel extends Wheel {
         encoder.setDistancePerPulse(rotationsPerPulse);
         pidConfig = PIDTuningManager.getInstance().getPIDConfig(name);
         this.pidController = new PIDController(defaultPID.getP(), defaultPID.getI(),
-                                defaultPID.getD(), defaultPID.getF(), encoder, speedController);
+                                defaultPID.getD(), defaultPID.getF(), encoder, getSpeedController());
         this.pidController.setOutputRange(-1.0, 1.0);
         pidController.enable();
-        this.reversed = reversed;
     }
     
-    public void setTargetWheelRPM(double targetWheelRPM) {
-        if(reversed) {
-            targetWheelRPM *= -1;
-        }
+    public void setSpeed(double targetWheelRPM) {
         this.targetWheelRPM = Math1816.coerceValue(maxWheelRPM, -maxWheelRPM, targetWheelRPM);
         update();
     }
     
     public void setPower(double power) {
-        if(reversed) {
-            power *= -1;
-        }
-        setTargetWheelRPM(power * maxWheelRPM);
+        setSpeed(power * maxWheelRPM);
         update();
     }
     
-    public double getTargetWheelRPM() {
+    public double getTargetSpeed() {
         return targetWheelRPM;
     }
     
-    public double getCurrentWheelRPM() {
+    public double getCurrentSpeed() {
         return encoder.getRate() * GEAR_RATIO;   
     }
     
-    public PIDConfig getPIDConfig() {
-        return pidConfig;
-    }
-    
     public void update() {
-        pidConfig.setValue(encoder.pidGet() * GEAR_RATIO);
-        
+        pidConfig.setValue(encoder.pidGet());
         if(pidConfig.shouldOverrideRawControl()) {
             pidController.disable();
-            speedController.set(pidConfig.getRemoteRawControlValue());
-        } else {
+            getSpeedController().set(pidConfig.getRemoteRawControlValue());
+        }
+        else {
+            pidController.enable();
             pidController.setPID(pidConfig.getP(defaultPID.getP()), 
                     pidConfig.getI(defaultPID.getI()), 
                     pidConfig.getD(defaultPID.getD()),
                     pidConfig.getF(defaultPID.getF()));
-            double encoderRPM = (1.0/GEAR_RATIO) * targetWheelRPM;
+            double encoderRPM = (1.0/GEAR_RATIO) * targetWheelRPM * (isReversed() ? -1.0 : 1.0);
             pidConfig.setSetpoint(encoderRPM);
             pidController.setSetpoint(pidConfig.getSetpoint());
         }
     }
-    
-    
 }

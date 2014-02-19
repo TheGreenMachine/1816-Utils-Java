@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class Wheel implements Updatable, SpeedController {
     private SpeedController speedController;
     private String name;
-    protected double power;
+    private double power;
     private boolean isReversed;
     
     /**
