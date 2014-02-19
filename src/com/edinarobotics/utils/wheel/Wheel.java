@@ -52,13 +52,18 @@ public class Wheel implements Updatable, SpeedController {
     }
     
     /**
+     * Indicates whether the Wheel is reversed.
+     * @return {@code true} if the wheel is reversed, {@code false} otherwise.
+     */
+    public boolean isReversed(){
+        return isReversed;
+    }
+    
+    /**
      * Sets the power of the speed controller.
      * @param power 
      */
     public void setPower(double power) {
-        if(isReversed) {
-            power*=-1;
-        }
         this.power = Math1816.coerceValue(1.0, -1.0, power);
         update();
     }
@@ -67,28 +72,49 @@ public class Wheel implements Updatable, SpeedController {
      * Updates the speed controller to the set speed.
      */
     public void update() {
-        speedController.set(power);
+        speedController.set((isReversed() ? -1.0 : 1.0) * power);
     }
 
+    /**
+     * Returns the most recently set power for the wheel.
+     * @return The most recently set power for the wheel.
+     */
     public double get() {
         return getPower();
     }
 
-    public void set(double d, byte b) {
-        setPower(d);
+    /**
+     * Sets the wheel to the given power. This method ignores
+     * the syncGroup parameter.
+     * @param power The power to be set.
+     * @param syncGroup The sync group for this wheel, ignored.
+     */
+    public void set(double power, byte syncGroup) {
+        setPower(power);
     }
 
-    public void set(double d) {
-        setPower(d);
+    /**
+     * Sets the wheel to the given power.
+     * @param power The power to be set.
+     */
+    public void set(double power) {
+        setPower(power);
     }
 
+    /**
+     * Stops the wheel and disables the internal speed controller.
+     */
     public void disable() {
         setPower(0.0);
         speedController.disable();
     }
-
-    public void pidWrite(double d) {
-        setPower(d);
+    
+    /**
+     * Writes the given power to the speed controller.
+     * @param power The power to write.
+     */
+    public void pidWrite(double power) {
+        set(power);
     }
     
 }
