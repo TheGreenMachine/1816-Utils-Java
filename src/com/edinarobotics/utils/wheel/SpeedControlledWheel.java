@@ -28,6 +28,7 @@ public class SpeedControlledWheel extends Wheel {
         this.maxWheelRPM = maxWheelRPM;
         encoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);
         encoder.setDistancePerPulse(rotationsPerPulse);
+        this.encoder.start();
         pidConfig = PIDTuningManager.getInstance().getPIDConfig(name);
         this.pidController = new PIDController(defaultPID.getP(), defaultPID.getI(),
                                 defaultPID.getD(), defaultPID.getF(), encoder, getSpeedController());
@@ -65,8 +66,8 @@ public class SpeedControlledWheel extends Wheel {
                     pidConfig.getI(defaultPID.getI()), 
                     pidConfig.getD(defaultPID.getD()),
                     pidConfig.getF(defaultPID.getF()));
-            double encoderRPM = (1.0/GEAR_RATIO) * targetWheelRPM * (isReversed() ? -1.0 : 1.0);
-            pidConfig.setSetpoint(encoderRPM);
+            double encoderRPS = ((1.0/GEAR_RATIO) * targetWheelRPM * (isReversed() ? -1.0 : 1.0))/60.0;
+            pidConfig.setSetpoint(encoderRPS);
             pidController.setSetpoint(pidConfig.getSetpoint());
         }
     }
