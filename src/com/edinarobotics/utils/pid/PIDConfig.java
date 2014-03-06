@@ -35,6 +35,7 @@ public class PIDConfig {
     protected PIDConfig(String name){
         this.name = name;
         overrideDefault = false;
+        this.remoteControlMode = PIDRemoteControlMode.NONE;
     }
     
     /**
