@@ -31,7 +31,8 @@ public class SpeedControlledWheel extends Wheel {
         this.encoder.start();
         pidConfig = PIDTuningManager.getInstance().getPIDConfig(name);
         this.pidController = new PIDController(defaultPID.getP(), defaultPID.getI(),
-                                defaultPID.getD(), defaultPID.getF(), encoder, getSpeedController());
+                                defaultPID.getD(), defaultPID.getF(), encoder, getSpeedController(),
+                0.025);
         this.pidController.setOutputRange(-1.0, 1.0);
         pidController.enable();
     }
