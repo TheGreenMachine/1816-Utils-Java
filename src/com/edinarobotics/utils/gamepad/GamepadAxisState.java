@@ -62,22 +62,30 @@ public class GamepadAxisState {
     /**
      * Returns the current direction of the Vector2 representing the state of
      * the gamepad's left joystick in degrees (-180 to 180). This return value
-     * is suitable to be passed into RobotDrive.
+     * is suitable to be passed into RobotDrive. The angle calculation
+     * is in the format expected by WPILib. The angles are computed from the
+     * positive y-axis, positive angles run clockwise and negative
+     * angles run counterclockwise. This is <em>not</em> how angles are
+     * normally calculated.
      * @return the current direction of the Vector2 representing the state of
      * the gamepad's left joystick in degrees (-180 to 180).
      */
     public double getLeftDirection() {
-        return Math.toDegrees(MathUtils.atan2(left.getY(), left.getX()));
+        return Math.toDegrees(MathUtils.atan2(left.getX(), left.getY()));
     }
     
     /**
      * Returns the current direction of the Vector2 representing the state of
      * the gamepad's right joystick in degrees (-180 to 180). This return value
-     * is suitable to be passed into RobotDrive.
+     * is suitable to be passed into RobotDrive. The angle calculation
+     * is in the format expected by WPILib. The angles are computed from the
+     * positive y-axis, positive angles run clockwise and negative
+     * angles run counterclockwise. This is <em>not</em> how angles are
+     * normally calculated.
      * @return the current direction of the Vector2 representing the state of
      * the gamepad's right joystick in degrees (-180 to 180).
      */
     public double getRightDirection() {
-        return Math.toDegrees(MathUtils.atan2(right.getY(), right.getX()));
+        return Math.toDegrees(MathUtils.atan2(right.getX(), right.getY()));
     }
 }
