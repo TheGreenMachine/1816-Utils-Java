@@ -25,6 +25,16 @@ public class JoystickAxisState {
     }
     
     /**
+     * Creates a new JoystickAxisState representing the given axis states.
+     * @param joystick The current state of the main joystick as a Vector2.
+     * @param throttle The current state of the joystick's throttle.
+     */
+    public JoystickAxisState(Vector2 joystick, double throttle){
+        this.joystick = joystick;
+        this.throttle = throttle;
+    }
+    
+    /**
      * Returns the Vector2 representing the state of the main joystick.
      * @return A Vector2 representing the state of the main joystick.
      */
