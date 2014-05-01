@@ -179,7 +179,7 @@ public class TwoAxisJoystick {
      * @return A Button object for lower right ring button.
      */
     public Button rightRingLower(){
-        return ringLeftDown;
+        return ringRightDown;
     }
     
     /**
