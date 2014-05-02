@@ -15,7 +15,7 @@ import java.util.Hashtable;
 public class GamepadJoystickShim {
     private Gamepad gamepad;
     private Joystick joystick;
-    private boolean isGamepad;
+    private ControllerType controllerType;
     private Hashtable joystickButtonTable, gamepadButtonTable;
     
     // Initializer used to construct the button Hashtables in both constructors.
@@ -29,18 +29,57 @@ public class GamepadJoystickShim {
      * @param gamepad The Gamepad object to use to back the GamepadJoystickShim.
      */
     public GamepadJoystickShim(Gamepad gamepad){
-        this.isGamepad = true;
+        this.controllerType = ControllerType.GAMEPAD;
         this.gamepad = gamepad;
     }
     
     /**
-     * Constructs a new GamepadJoystickShim backed by a Joystick object.
-     * @param joystick The Joystick object to use to back the
+     * Constructs a new GamepadJoystickShim backed by a TwoAxisJoystick object.
+     * @param joystick The TwoAxisJoystick object to use to back the
      * GamepadJoystickShim.
      */
-    public GamepadJoystickShim(Joystick joystick){
-        this.isGamepad = false;
+    public GamepadJoystickShim(TwoAxisJoystick joystick){
+        this.controllerType = ControllerType.TWOAXISJOY;
         this.joystick = joystick;
+    }
+    
+    /**
+     * Constructs a new GamepadJoystickShim backed by a ThreeAxisJoystick object.
+     * @param joystick The ThreeAxisJoystick object to use to back the
+     * GamepadJoystickShim.
+     */
+    public GamepadJoystickShim(ThreeAxisJoystick joystick){
+        this.controllerType = ControllerType.THREEAXISJOY;
+        this.joystick = joystick;
+    }
+    
+    public static final class ControllerType {
+        public static final ControllerType GAMEPAD = new ControllerType((byte)0, "gamepad");
+        public static final ControllerType TWOAXISJOY = new ControllerType((byte)1, "twoaxisjoy");
+        public static final ControllerType THREEAXISJOY = new ControllerType((byte)2, "threeaxisjoy");
+        
+        private byte controllerType;
+        private String typeName;
+        
+        private ControllerType(byte controllerType, String typeName) {
+            this.controllerType = controllerType;
+            this.typeName = typeName;
+        }
+        
+        private byte getControllerType() {
+            return controllerType;
+        }
+        
+        public boolean equals(Object controllerType) {
+            if(controllerType instanceof ControllerType) {
+                return ((ControllerType)controllerType).getControllerType() == this.getControllerType();
+            }
+            return false;
+        }
+        
+        public String toString() {
+            return typeName.toLowerCase();
+        }
     }
     
     /**
@@ -51,6 +90,16 @@ public class GamepadJoystickShim {
      */
     public boolean isGamepad(){
         return isGamepad;
+    }
+    
+    /**
+     * Indicates whether this GamepadJoystickShim is backed by a real Joystick
+     * object.
+     * @return {@code true} if this GamepadJoystickShim is backed by a Joystick,
+     * {@code false} otherwise.
+     */
+    public boolean isJoystick(){
+        return !isGamepad();
     }
     
     /**
@@ -68,17 +117,9 @@ public class GamepadJoystickShim {
      * if this instance is not backed by a Joystick.
      */
     public Joystick getJoystick(){
-        return joystick;
-    }
-    
-    /**
-     * Indicates whether this GamepadJoystickShim is backed by a real Joystick
-     * object.
-     * @return {@code true} if this GamepadJoystickShim is backed by a Joystick,
-     * {@code false} otherwise.
-     */
-    public boolean isJoystick(){
-        return !isGamepad();
+        if(controllerType.equals(ControllerType.THREEAXISJOY))
+            return (ThreeAxisJoystick)joystick;
+        return (TwoAxisJoystick)joystick;
     }
     
     /**
@@ -103,8 +144,10 @@ public class GamepadJoystickShim {
      * @return The polar magnitude to be used in mecanum control.
      */
     public double getMecanumMagnitude(){
-        if(isGamepad()){
+        if(controllerType.equals(ControllerType.GAMEPAD)) {
             return gamepad.getGamepadAxisState().getLeftMagnitude();
+        } else if(controllerType.equals(ControllerType.TWOAXISJOY)) {
+            return joystick.getJoystickAxisState().getMagnitude();
         }
         return joystick.getJoystickAxisState().getMagnitude();
     }
@@ -117,10 +160,12 @@ public class GamepadJoystickShim {
      * @return The rotation to be used in mecanum control.
      */
     public double getMecanumRotation(){
-        if(isGamepad()){
+        if(controllerType.equals(ControllerType.GAMEPAD)) {
             return gamepad.getGamepadAxisState().getRightJoystick().getX();
+        } else if(controllerType.equals(ControllerType.TWOAXISJOY)) {
+            return ((TwoAxisJoystick)joystick).getJoystickAxisState().getX();
         }
-        return joystick.getTwist();
+        return ((ThreeAxisJoystick)joystick).getTwist();
     }
     
     /**
@@ -132,10 +177,12 @@ public class GamepadJoystickShim {
      * value.
      */
     public double getThrottle(double defaultValue){
-        if(isGamepad()){
+        if(controllerType.equals(ControllerType.GAMEPAD)) {
             return defaultValue;
+        } else if(controllerType.equals(ControllerType.TWOAXISJOY)) {
+            return ((TwoAxisJoystick)joystick).getThrottle();
         }
-        return joystick.getThrottle();
+        return ((ThreeAxisJoystick)joystick).getThrottle();
     }
     
     /**
@@ -165,21 +212,8 @@ public class GamepadJoystickShim {
     }
     
     /**
-     * Returns the state of the secondary x-axis of the gamepad or joystick.
-     * The secondary x-axis of the gamepad is the right x-axis. The secondary
-     * x-axis of the joystick is the twist axis.
-     * @return The state of the secondary x-axis of the backing controller.
-     */
-    public double getSecondaryX(){
-        if(isGamepad()){
-            return gamepad.getRightX();
-        }
-        return joystick.getTwist();
-    }
-    
-    /**
-     * Returns the state of the secondary x-axis of the gamepad or the
-     * given default value.
+     * Returns the state of the secondary x-axis of the gamepad or the given
+     * default value.
      * The secondary x-axis of the gamepad is the right x-axis.
      * @param defaultValue The default value to return in the event that
      * the backing controller is a joystick.
@@ -187,28 +221,15 @@ public class GamepadJoystickShim {
      * or the given default value.
      */
     public double getSecondaryX(double defaultValue){
-        if(isGamepad()){
+        if(controllerType.equals(ControllerType.GAMEPAD)) {
             return gamepad.getRightX();
         }
         return defaultValue;
     }
     
     /**
-     * Returns the state of the secondary y-axis of the gamepad or joystick.
-     * The secondary y-axis of the gamepad is the right y-axis. The secondary
-     * y-axis of the joystick is the throttle.
-     * @return The state of the secondary y-axis of the backing controller.
-     */
-    public double getSecondaryY(){
-        if(isGamepad()){
-            return gamepad.getRightY();
-        }
-        return joystick.getThrottle();
-    }
-    
-    /**
-     * Returns the state of the secondary y-axis of the gamepad or the
-     * given default value.
+     * Returns the state of the secondary y-axis of the gamepad, or the given
+     * default value.
      * The secondary y-axis of the gamepad is the right y-axis.
      * @param defaultValue The default value to return in the event that
      * the backing controller is a joystick.
@@ -216,7 +237,7 @@ public class GamepadJoystickShim {
      * or the given default value.
      */
     public double getSecondaryY(double defaultValue){
-        if(isGamepad()){
+        if(controllerType.equals(ControllerType.GAMEPAD)) {
             return gamepad.getRightY();
         }
         return defaultValue;
