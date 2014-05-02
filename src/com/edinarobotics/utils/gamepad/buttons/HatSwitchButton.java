@@ -1,6 +1,7 @@
 package com.edinarobotics.utils.gamepad.buttons;
 
 import com.edinarobotics.utils.gamepad.Joystick;
+import com.edinarobotics.utils.gamepad.ThreeAxisJoystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
  * have Command object bound to it.
  */
 public final class HatSwitchButton extends Button {
-    private final Joystick joystick;
+    private final ThreeAxisJoystick joystick;
     private final HatSwitchButtonType buttonType;
     
     /**
@@ -20,7 +21,7 @@ public final class HatSwitchButton extends Button {
      * @param buttonType The direction on the hat switch that will be monitored
      * by this HatSwitchButton.
      */
-    public HatSwitchButton(Joystick joystick, HatSwitchButtonType buttonType){
+    public HatSwitchButton(ThreeAxisJoystick joystick, HatSwitchButtonType buttonType){
         this.joystick = joystick;
         this.buttonType = buttonType;
     }
