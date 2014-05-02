@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * 
  * The buttons have been given names to avoid depending on their printed labels.
  */
-public class TwoAxisJoystick {
-    protected final edu.wpi.first.wpilibj.Joystick joystick;
-    protected final int port;
-    private Button trigger;
+public class TwoAxisJoystick extends Joystick {
     private Button hatButtonMiddle, hatButtonLeft, 
             hatButtonRight, hatButtonDown;
     private Button ringLeftUp, ringLeftDown, ringRightUp, ringRightDown;
@@ -24,10 +21,7 @@ public class TwoAxisJoystick {
      * @param port The port number of the joystick to be read.
      */
     public TwoAxisJoystick(int port) {
-        this.port = port;
-        this.joystick = new edu.wpi.first.wpilibj.Joystick(port);
-        //Set up trigger
-        trigger = new JoystickButton(joystick, 1);
+        super(port);
         //Set up top buttons
         hatButtonMiddle = new JoystickButton(joystick, 3);
         hatButtonLeft = new JoystickButton(joystick, 4);
@@ -41,26 +35,6 @@ public class TwoAxisJoystick {
         //Set up auxiliary buttons
         auxLeft = new JoystickButton(joystick, 8);
         auxRight = new JoystickButton(joystick, 9);
-    }
-    
-    /**
-     * Returns the current value of the x-axis of the joystick. <br/>
-     * A value of {@code -1} indicates that the joystick is fully left.<br/>
-     * A value of {@code 1} indicates that the joystick is fully right.
-     * @return The current value of the x-axis of the joystick.
-     */
-    public double getX(){
-        return joystick.getRawAxis(1);
-    }
-    
-    /**
-     * Returns the current value of the y-axis of the joystick. <br/>
-     * A value of {@code -1} indicates that the joystick is fully down.<br/>
-     * A value of {@code 1} indicates that the joystick is fully up.
-     * @return The current value of the y-axis of the joystick.
-     */
-    public double getY(){
-        return -1.0*joystick.getRawAxis(2);
     }
     
     /**
@@ -90,16 +64,6 @@ public class TwoAxisJoystick {
      */
     public double getThrottle(){
         return (-1.0*joystick.getRawAxis(3)+1.0)*0.5;
-    }
-    
-    /**
-     * Returns a Button object representing the trigger of the joystick. <br/>
-     * The trigger is the large button on the front of the joystick. It is
-     * shaped like a trigger.
-     * @return A Button object for the trigger.
-     */
-    public Button trigger(){
-        return trigger;
     }
     
     /**
