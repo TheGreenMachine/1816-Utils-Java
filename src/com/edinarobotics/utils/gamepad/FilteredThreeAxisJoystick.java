@@ -7,7 +7,7 @@ import com.edinarobotics.utils.math.Vector2;
  * Implements a Joystick that filters all of its axis values through a given
  * JoystickFilterSet.
  */
-public class FilteredJoystick extends Joystick {
+public class FilteredThreeAxisJoystick extends ThreeAxisJoystick {
     private JoystickFilterSet filters;
     
     /**
@@ -18,7 +18,7 @@ public class FilteredJoystick extends Joystick {
      * @param filters The JoystickFilterSet through which all axis values are
      * to be sent.
      */
-    public FilteredJoystick(int port, JoystickFilterSet filters){
+    public FilteredThreeAxisJoystick(int port, JoystickFilterSet filters){
         super(port);
         this.filters = filters;
     }
