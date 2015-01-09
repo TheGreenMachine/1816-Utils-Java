@@ -1,13 +1,13 @@
 package com.edinarobotics.utils.sensors;
 
-import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * The StringPot class defines a String Potentiometer and provides methods to get the raw
  * voltage of the potentiometer and the length of the string based on the same voltage.
  */
 public class StringPot {
-    private AnalogChannel analogChannel;
+    private AnalogInput analogInput;
     private double minVoltage;
     private double maxVoltage;
     private double stringLength;
@@ -22,9 +22,9 @@ public class StringPot {
      * @param stringLength The length of the potentiometer's string.
      * @param reverseRange Whether to reverse the range of the voltages.
      */
-    public StringPot(AnalogChannel analogChannel, double minVoltage, double maxVoltage,
+    public StringPot(AnalogInput analogInput, double minVoltage, double maxVoltage,
             double stringLength, boolean reverseRange) {
-        this.analogChannel = analogChannel;
+        this.analogInput = analogInput;
         this.minVoltage = minVoltage;
         this.maxVoltage = maxVoltage;
         this.stringLength = stringLength;
@@ -43,24 +43,7 @@ public class StringPot {
      */
     public StringPot(int channel, double minVoltage, double maxVoltage, double stringLength,
             boolean reverseRange) {
-        this(new AnalogChannel(channel), minVoltage, maxVoltage, stringLength, reverseRange);
-    }
-    
-    /**
-     * Creates a String Potentiometer on the specified channel and slot, sets the minimum
-     * and maximum voltages, the string's length, and reverses the range of the
-     * voltages if specified.
-     * @param slot Slot on which potentiometer is inserted.
-     * @param channel The potentiometer's channel.
-     * @param minVoltage The minimum value of the voltage range.
-     * @param maxVoltage The maximum value of the voltage range.
-     * @param stringLength The length of the potentiometer's string.
-     * @param reverseRange Whether to reverse the range of the voltages.
-     */
-    public StringPot(int slot, int channel, double minVoltage, double maxVoltage,
-            double stringLength, boolean reverseRange) {
-        this(new AnalogChannel(slot, channel), minVoltage, maxVoltage, stringLength,
-                reverseRange);
+        this(new AnalogInput(channel), minVoltage, maxVoltage, stringLength, reverseRange);
     }
     
     /**
@@ -70,7 +53,7 @@ public class StringPot {
      * @param maxVoltage The maximum value of the voltage range.
      * @param stringLength The length of the potentiometer's string.
      */
-    public StringPot(AnalogChannel analogChannel, double minVoltage, double maxVoltage,
+    public StringPot(AnalogInput analogChannel, double minVoltage, double maxVoltage,
             double stringLength) {
         this(analogChannel, minVoltage, maxVoltage, stringLength, false);
     }
@@ -84,21 +67,7 @@ public class StringPot {
      * @param stringLength The length of the potentiometer's string.
      */
     public StringPot(int channel, double minVoltage, double maxVoltage, double stringLength) {
-        this(new AnalogChannel(channel), minVoltage, maxVoltage, stringLength, false);
-    }
-    
-    /**
-     * Creates a String Potentiometer on the specified channel and slot, sets the minimum
-     * and maximum voltages, the string's length.
-     * @param slot Slot on which potentiometer is inserted.
-     * @param channel The potentiometer's channel.
-     * @param minVoltage The minimum value of the voltage range.
-     * @param maxVoltage The maximum value of the voltage range.
-     * @param stringLength The length of the potentiometer's string.
-     */
-    public StringPot(int slot, int channel, double minVoltage, double maxVoltage,
-            double stringLength) {
-        this(new AnalogChannel(slot, channel), minVoltage, maxVoltage, stringLength, false);
+        this(new AnalogInput(channel), minVoltage, maxVoltage, stringLength, false);
     }
     
     /**
@@ -106,7 +75,7 @@ public class StringPot {
      * @return Raw voltage on potentiometer.
      */
     public double getRawVoltage() {
-        return analogChannel.getVoltage();
+        return analogInput.getVoltage();
     }
     
     /**
@@ -132,10 +101,10 @@ public class StringPot {
      */
     public double getStringLength() {
         if(reverseRange == false) {
-            return ((analogChannel.getVoltage() - minVoltage)/(maxVoltage - minVoltage))
+            return ((analogInput.getVoltage() - minVoltage)/(maxVoltage - minVoltage))
                     * stringLength;
         } else {
-            return ((analogChannel.getVoltage() - maxVoltage)/(minVoltage - maxVoltage))
+            return ((analogInput.getVoltage() - maxVoltage)/(minVoltage - maxVoltage))
                     * stringLength;
         }
     }

@@ -1,7 +1,7 @@
 package com.edinarobotics.utils.gamepad;
 
 import com.edinarobotics.utils.math.Vector2;
-import com.sun.squawk.util.MathUtils;
+import java.lang.Math;
 
 /**
  * This class represents the state of all axis on a Joystick.
@@ -98,6 +98,6 @@ public class JoystickAxisState {
      * the joystick in degrees (-180 to 180).
      */
     public double getDirection(){
-        return Math.toDegrees(MathUtils.atan2(getY(), getX()));
+        return Math.toDegrees(Math.atan2(getY(), getX()));
     }
 }

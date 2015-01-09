@@ -1,7 +1,7 @@
 package com.edinarobotics.utils.gamepad.gamepadfilters;
 
+import java.util.List;
 import com.edinarobotics.utils.gamepad.GamepadAxisState;
-import java.util.Vector;
 
 /**
  * This class applies multiple other GamepadFilters to a Gamepad.
@@ -25,28 +25,10 @@ public class GamepadFilterSet implements GamepadFilter{
      * @param filters The Vector of GamepadFilter objects to be applied to
      * the Gamepad.
      */
-    public GamepadFilterSet(Vector filters){
-        this(convertVectorToFilterArr(filters));
+    public GamepadFilterSet(List<GamepadFilterSet> filters){
+        this((GamepadFilter[])filters.toArray());
     }
-    
-    /**
-     * An internal function used to convert a Vector of GamepadFilters into
-     * an array of GamepadFilter objects.
-     * This function is needed be cause a call to {@code this} must be the
-     * first line in a constructor.
-     * @param filters The Vector of GamepadFilter objects to be converted to
-     * an array.
-     * @return A new array of GamepadFilter objects created from the given
-     * Vector.
-     */
-    private static GamepadFilter[] convertVectorToFilterArr(Vector filters){
-        GamepadFilter[] filtersArr = new GamepadFilter[filters.size()];
-        for(int i = 0; i < filters.size(); i++){
-            filtersArr[i] = (GamepadFilter)filters.elementAt(i);
-        }
-        return filtersArr;
-    }
-
+   
     /**
      * Filters the given GamepadAxisState object through the given set of
      * filters. The filters are applied in order.

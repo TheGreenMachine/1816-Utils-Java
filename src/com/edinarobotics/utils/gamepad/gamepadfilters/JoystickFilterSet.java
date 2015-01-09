@@ -1,7 +1,8 @@
 package com.edinarobotics.utils.gamepad.gamepadfilters;
 
 import com.edinarobotics.utils.gamepad.JoystickAxisState;
-import java.util.Vector;
+
+import java.util.List;
 
 /**
  * This class applies multiple other JoystickFilters to a Joystick.
@@ -25,26 +26,8 @@ public class JoystickFilterSet {
      * @param filters The Vector of JoystickFilter objects to be applied to
      * the Joystick.
      */
-    public JoystickFilterSet(Vector filters){
-        this(convertVectorToFilterArr(filters));
-    }
-    
-    /**
-     * An internal function used to convert a Vector of JoystickFilters into
-     * an array of JoystickFilter objects.
-     * This function is needed be cause a call to {@code this} must be the
-     * first line in a constructor.
-     * @param filters The Vector of JoystickFilter objects to be converted to
-     * an array.
-     * @return A new array of JoystickFilter objects created from the given
-     * Vector.
-     */
-    private static JoystickFilter[] convertVectorToFilterArr(Vector filters){
-        JoystickFilter[] filtersArr = new JoystickFilter[filters.size()];
-        for(int i = 0; i < filters.size(); i++){
-            filtersArr[i] = (JoystickFilter)filters.elementAt(i);
-        }
-        return filtersArr;
+    public JoystickFilterSet(List<JoystickFilter> filters){
+        this((JoystickFilter[])filters.toArray());
     }
 
     /**

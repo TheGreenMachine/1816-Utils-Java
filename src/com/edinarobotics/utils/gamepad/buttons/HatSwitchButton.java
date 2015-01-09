@@ -1,6 +1,5 @@
 package com.edinarobotics.utils.gamepad.buttons;
 
-import com.edinarobotics.utils.gamepad.Joystick;
 import com.edinarobotics.utils.gamepad.ThreeAxisJoystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 

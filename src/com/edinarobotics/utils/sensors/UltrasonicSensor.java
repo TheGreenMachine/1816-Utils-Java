@@ -1,10 +1,10 @@
 package com.edinarobotics.utils.sensors;
 
-import com.sun.squawk.util.Arrays;
-import edu.wpi.first.wpilibj.AnalogChannel;
+import java.util.Arrays;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 public class UltrasonicSensor {
-    private AnalogChannel analogChannel;
+    private AnalogInput AnalogInput;
     private double scale;
     private int TO_AVERAGE = 35;
     private int lastValue = 0;
@@ -13,12 +13,12 @@ public class UltrasonicSensor {
     private final boolean isScaled;
     
     public UltrasonicSensor(int sensorChannel) {
-        analogChannel = new AnalogChannel(sensorChannel);
+        AnalogInput = new AnalogInput(sensorChannel);
         isScaled = false;
     }
 
     public UltrasonicSensor(int sensorChannel, double scale) {
-        analogChannel = new AnalogChannel(sensorChannel);
+        AnalogInput = new AnalogInput(sensorChannel);
         this.scale = scale;
         isScaled = true;
     }
@@ -40,7 +40,7 @@ public class UltrasonicSensor {
     }
     
     private double averageArr(){
-        double[] workingArray = Arrays.copy(distances, 0, distances.length, 0, distances.length);
+        double[] workingArray = Arrays.copyOf(distances, distances.length);
         Arrays.sort(workingArray);
         int lowIndex = (int)Math.ceil(workingArray.length * 0.1);
         int highIndex = (int)Math.ceil(workingArray.length * 0.9);
@@ -52,6 +52,6 @@ public class UltrasonicSensor {
     }
     
     public double getVoltage() {
-        return analogChannel.getVoltage();
+        return AnalogInput.getVoltage();
     }
 }

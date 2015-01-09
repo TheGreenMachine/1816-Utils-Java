@@ -1,7 +1,7 @@
 package com.edinarobotics.utils.sensors;
 
 import com.edinarobotics.utils.common.Updatable;
-import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDSource;
 
 /**
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.PIDSource;
  * calculations and returning a simple angle.
  */
 public class AnalogAbsoluteEncoder implements PIDSource, Updatable{
-    private AnalogChannel analogChannel;
+    private AnalogInput analogInput;
     private double minVolts, maxVolts, angleOffset, lastAngle, zeroingOffset;
     private boolean reversed, reverseReadDirection;
     private static final double MAX_PRE_READ_DISTANCE = 180.0;
@@ -27,8 +27,8 @@ public class AnalogAbsoluteEncoder implements PIDSource, Updatable{
      * @param reverseReadDirection If {@code true} the encoder will read in the
      * opposite direction (the angle will be subtracted from 360 degrees).
      */
-    public AnalogAbsoluteEncoder(AnalogChannel analogChannel, double voltage0Deg, double voltage360Deg, double zeroingOffset, boolean reverseReadDirection){
-        this.analogChannel = analogChannel;
+    public AnalogAbsoluteEncoder(AnalogInput analogChannel, double voltage0Deg, double voltage360Deg, double zeroingOffset, boolean reverseReadDirection){
+        this.analogInput = analogChannel;
         minVolts = voltage0Deg;
         maxVolts = voltage360Deg;
         reversed = false;
@@ -48,7 +48,7 @@ public class AnalogAbsoluteEncoder implements PIDSource, Updatable{
      * @return The raw voltage (in volts) as read from the analog channel.
      */
     public double getVoltage(){
-        return analogChannel.getVoltage();
+        return analogInput.getVoltage();
     }
     
     /**

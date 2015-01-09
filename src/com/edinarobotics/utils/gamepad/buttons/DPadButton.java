@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 public class DPadButton extends Button{
     private final Gamepad gamepad;
     private final DPadButtonType buttonType;
-    private static final double THRESHOLD = 0.9;
     
     /**
      * Constructs a new DPadButton attached to the given gamepad, monitoring

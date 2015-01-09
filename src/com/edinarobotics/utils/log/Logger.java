@@ -11,7 +11,7 @@ import java.util.Hashtable;
 public final class Logger {
     private String name;
     private Logger parent;
-    private Hashtable children;
+    private Hashtable<String, Logger> children;
     private Filter filter;
     private Handler handler;
     private static boolean enabled = true;
@@ -24,7 +24,7 @@ public final class Logger {
     protected Logger(String name, Logger parent){
         this.name = name;
         this.parent = parent;
-        this.children = new Hashtable();
+        this.children = new Hashtable<String, Logger>();
     }
     
     /**

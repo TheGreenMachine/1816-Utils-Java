@@ -1,7 +1,6 @@
 package com.edinarobotics.utils.sensors;
 
-import edu.wpi.first.wpilibj.AnalogChannel;
-import edu.wpi.first.wpilibj.AnalogTrigger;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * Implements an analog absolute encoder class for US Digital's
@@ -21,7 +20,7 @@ public class AbsoluteMA3A10 extends AnalogAbsoluteEncoder{
      * increasing angle direction reversed. The rotation direction that would
      * normally count up will instead count down.
      */
-    public AbsoluteMA3A10(AnalogChannel analogChannel, double angleOffset, boolean reverseReadDirection){
-        super(analogChannel, 0.0, 5.0, angleOffset, reverseReadDirection);
+    public AbsoluteMA3A10(AnalogInput analogInput, double angleOffset, boolean reverseReadDirection){
+        super(analogInput, 0.0, 5.0, angleOffset, reverseReadDirection);
     }
 }

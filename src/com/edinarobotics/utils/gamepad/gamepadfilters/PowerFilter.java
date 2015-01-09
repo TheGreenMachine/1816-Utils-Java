@@ -1,7 +1,7 @@
 package com.edinarobotics.utils.gamepad.gamepadfilters;
 
 import com.edinarobotics.utils.math.Math1816;
-import com.sun.squawk.util.MathUtils;
+import java.lang.Math;
 
 /**
  * This filter raises gamepad axis values to a given power while preserving
@@ -28,6 +28,6 @@ public class PowerFilter extends SimpleGamepadJoystickFilter{
      * @return The new, filtered value of the gamepad axis.
      */
     protected double applyFilter(double value) {
-        return Math1816.signum(value)*Math.abs(MathUtils.pow(value, this.power));
+        return Math1816.signum(value)*Math.abs(Math.pow(value, this.power));
     }
 }

@@ -1,6 +1,6 @@
 package com.edinarobotics.utils.math;
 
-import com.sun.squawk.util.MathUtils;
+import java.lang.Math;
 
 /**
  * This class implements a 2-dimensional vector and associated mathematical
@@ -103,7 +103,7 @@ public class Vector2 extends Point2 {
         }
         double dot = this.dot(other);
         double cosVal = dot/this.magnitude()/other.magnitude();
-        return MathUtils.acos(cosVal);
+        return Math.acos(cosVal);
     }
     
     /**
@@ -134,6 +134,6 @@ public class Vector2 extends Point2 {
      * @return The euclidian magnitude (length) of this Vector2.
      */
     public double magnitude(){
-        return Math.sqrt(MathUtils.pow(getX(), 2.0) + MathUtils.pow(getY(), 2.0));
+        return Math.sqrt(Math.pow(getX(), 2.0) + Math.pow(getY(), 2.0));
     }
 }

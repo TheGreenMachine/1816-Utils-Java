@@ -1,6 +1,6 @@
 package com.edinarobotics.utils.log;
 
-import com.sun.squawk.util.StringTokenizer;
+import java.util.StringTokenizer;
 
 /**
  * The LogSystem class provides clients with a method to access the log system

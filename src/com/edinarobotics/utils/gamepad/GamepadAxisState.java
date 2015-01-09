@@ -1,7 +1,7 @@
 package com.edinarobotics.utils.gamepad;
 
 import com.edinarobotics.utils.math.Vector2;
-import com.sun.squawk.util.MathUtils;
+import java.lang.Math;
 
 /**
  * This class represents the state of all joystick axes of a Gamepad.
@@ -71,7 +71,7 @@ public class GamepadAxisState {
      * the gamepad's left joystick in degrees (-180 to 180).
      */
     public double getLeftDirection() {
-        return Math.toDegrees(MathUtils.atan2(left.getX(), left.getY()));
+        return Math.toDegrees(Math.atan2(left.getX(), left.getY()));
     }
     
     /**
@@ -86,6 +86,6 @@ public class GamepadAxisState {
      * the gamepad's right joystick in degrees (-180 to 180).
      */
     public double getRightDirection() {
-        return Math.toDegrees(MathUtils.atan2(right.getX(), right.getY()));
+        return Math.toDegrees(Math.atan2(right.getX(), right.getY()));
     }
 }
