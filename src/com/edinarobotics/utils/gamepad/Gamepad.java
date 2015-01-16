@@ -64,7 +64,7 @@ public class Gamepad {
      * @return The current value of the x-axis of the left joystick.
      */
     public double getLeftX(){
-        return joystick.getRawAxis(1);
+        return joystick.getRawAxis(0);
     }
     
     /**
@@ -74,7 +74,7 @@ public class Gamepad {
      * @return The current value of the y-axis of the left joystick.
      */
     public double getLeftY(){
-        return -joystick.getRawAxis(2);
+        return -joystick.getRawAxis(1);
     }
     
     /**
@@ -84,7 +84,7 @@ public class Gamepad {
      * @return The current value of the x-axis of the right joystick.
      */
     public double getRightX(){
-        return joystick.getRawAxis(3);
+        return joystick.getRawAxis(2);
     }
     
     /**
@@ -94,7 +94,7 @@ public class Gamepad {
      * @return The current value of the y-axis of the right joystick.
      */
     public double getRightY(){
-        return -joystick.getRawAxis(4);
+        return -joystick.getRawAxis(3);
     }
     
     /**
