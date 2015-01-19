@@ -23,5 +23,5 @@ Works out of the box, just open the project. Build using command-line or right-c
 
 ###Eclipse
 1. Import project
-2. Modify build path and add `networktables-crio.jar`, `squawk.jar` and `wpilibj.jar` as libraries
+2. Modify build path and add `networktables-crio.jar`, and `wpilibj.jar` as libraries
 3. Build using the FRC External Build Configuration
