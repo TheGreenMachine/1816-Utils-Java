@@ -7,7 +7,7 @@ import com.edinarobotics.utils.math.Vector2;
  * Implements a Gamepad that filters all of its joystick axis values through
  * a given GamepadFilterSet.
  */
-public class FilteredGamepad extends GamepadNew {
+public class FilteredGamepad extends Gamepad {
     private GamepadFilterSet filters;
     
     /**

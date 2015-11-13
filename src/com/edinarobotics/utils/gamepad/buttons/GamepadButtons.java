@@ -1,42 +1,38 @@
 package com.edinarobotics.utils.gamepad.buttons;
 
-/**
- * GamepadButtons represents all the possible button types on a gamepad.
- * For information on the names given to gamepad buttons, see
- * {@link com.edinarobotics.utils.gamepad.Gamepad Gamepad}.
- */
-public final class GamepadButtons {
-    private final byte value;
-    private final String name;
-    
-    public static final GamepadButtons LEFT_BUMPER = new GamepadButtons((byte)0, "left bumper");
-    public static final GamepadButtons RIGHT_BUMPER = new GamepadButtons((byte)1, "right bumper");
-    public static final GamepadButtons LEFT_TRIGGER = new GamepadButtons((byte)2, "left trigger");
-    public static final GamepadButtons RIGHT_TRIGGER = new GamepadButtons((byte)3, "right trigger");
-    public static final GamepadButtons DIAMOND_DOWN = new GamepadButtons((byte)4, "diamond down");
-    public static final GamepadButtons DIAMOND_UP = new GamepadButtons((byte)5, "diamond up");
-    public static final GamepadButtons DIAMOND_LEFT =  new GamepadButtons((byte)6, "diamond left");
-    public static final GamepadButtons DIAMOND_RIGHT = new GamepadButtons((byte)7, "diamond right");
-    public static final GamepadButtons MIDDLE_LEFT = new GamepadButtons((byte)8, "middle left");
-    public static final GamepadButtons MIDDLE_RIGHT = new GamepadButtons((byte)9, "middle right");
-    public static final GamepadButtons LEFT_JOYSTICK_BUTTON = new GamepadButtons((byte)10, "left joystick button");
-    public static final GamepadButtons RIGHT_JOYSTICK_BUTTON = new GamepadButtons((byte)11, "right joystick button");
-    public static final GamepadButtons DPAD_DOWN = new GamepadButtons((byte)12, "dpad down");
-    public static final GamepadButtons DPAD_UP = new GamepadButtons((byte)13, "dpad up");
-    public static final GamepadButtons DPAD_LEFT = new GamepadButtons((byte)14, "dpad left");
-    public static final GamepadButtons DPAD_RIGHT = new GamepadButtons((byte)15, "dpad right");
-    
-    /**
+public enum GamepadButtons {
+	
+	LEFT_BUMPER((byte) 0, "left bumper"),
+	RIGHT_BUMPER((byte) 1, "right bumper"),
+	LEFT_TRIGGER((byte) 2, "left trigger"),
+	RIGHT_TRIGGER((byte) 3, "right trigger"),
+	DIAMOND_DOWN((byte) 4, "diamond down"),
+	DIAMOND_UP((byte) 5, "diamond up"),
+	DIAMOND_LEFT((byte) 6, "diamond left"),
+	DIAMOND_RIGHT((byte) 7, "diamond right"),
+	MIDDLE_LEFT((byte) 8, "middle left"),
+	MIDDLE_RIGHT((byte) 9, "middle right"),
+	LEFT_JOYSTICK_BUTTON((byte) 10, "left joystick button"),
+	RIGHT_JOYSTICK_BUTTON((byte) 11, "right joystick button"),
+	DPAD_DOWN((byte) 12, "dpad down"),
+	DPAD_UP((byte) 13, "dpad up"),
+	DPAD_LEFT((byte) 14, "dpad left"),
+	DPAD_RIGHT((byte) 15, "dpad right");
+	
+	private final byte value;
+	private final String name;
+	
+	/**
      * Internal constructor used to create a GamepadButtons value.
      * @param value The internal value used for equality comparisons.
      * @param name The name of this GamepadButtons value.
      */
-    private GamepadButtons(byte value, String name){
-        this.value = value;
-        this.name = name;
-    }
-    
-    /**
+	GamepadButtons(byte value, String name) {
+		this.value = value;
+		this.name = name;
+	}
+	
+	/**
      * Returns the name of this button in lower case.
      * @return The name of this button in lower case.
      */
@@ -51,31 +47,6 @@ public final class GamepadButtons {
     private byte getValue(){
         return value;
     }
-
-    /**
-     * Computes an integer hash code value for this GamepadButtons object.
-     * @return An integer hash code value for this GamepadButtons object.
-     */
-    public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + this.value;
-        return hash;
-    }
-    
-    /**
-     * Tests this object against another for equality. Another object is
-     * equal to this one if it is also a GamepadButtons object and if
-     * it has the same internal byte value.
-     * @param other The other object to be compared to this one for equality.
-     * @return {@code true} if the objects are equal as defined above,
-     * {@code false} otherwise.
-     */
-    public boolean equals(Object other){
-        if(other instanceof GamepadButtons){
-            return ((GamepadButtons)other).getValue() == getValue();
-        }
-        return false;
-    }
     
     /**
      * Produces a human-readable representation of this GamepadButtons object.
@@ -84,4 +55,5 @@ public final class GamepadButtons {
     public String toString(){
         return getName();
     }
+
 }

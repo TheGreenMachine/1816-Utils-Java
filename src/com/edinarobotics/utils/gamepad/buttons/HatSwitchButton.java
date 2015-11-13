@@ -1,92 +1,68 @@
 package com.edinarobotics.utils.gamepad.buttons;
 
 import com.edinarobotics.utils.gamepad.ThreeAxisJoystick;
+
 import edu.wpi.first.wpilibj.buttons.Button;
 
-/**
- * Represents a button on the joystick hat switch.
- * 
- * This class can be used as a regular command-based programming button and
- * have Command object bound to it.
- */
-public final class HatSwitchButton extends Button {
-    private final ThreeAxisJoystick joystick;
-    private final HatSwitchButtonType buttonType;
-    
-    /**
-     * Constructs a new HatSwitchButton attached to the given joystick, monitoring
+public class HatSwitchButton extends Button {
+
+	private final ThreeAxisJoystick joystick;
+	private final HatSwitchButtonType buttonType;
+	
+	/**
+     * Constructs a new HatSwitchButton attached to the given ThreeAxisJoystick, monitoring
      * the given direction on the hat switch.
-     * @param joystick The Joystick object to which this button is bound.
+     * @param joystick The ThreeAxisJoystick object to which this button is bound.
      * @param buttonType The direction on the hat switch that will be monitored
      * by this HatSwitchButton.
      */
-    public HatSwitchButton(ThreeAxisJoystick joystick, HatSwitchButtonType buttonType){
-        this.joystick = joystick;
-        this.buttonType = buttonType;
-    }
-
-    /**
+	public HatSwitchButton(ThreeAxisJoystick joystick, HatSwitchButtonType buttonType) {
+		this.joystick = joystick;
+		this.buttonType = buttonType;
+	}
+	
+	/**
      * Returns the current state of this HatSwitchButton.
      * @return The current state of this HatSwitchButton.
      */
-    public boolean get() {
-        if(buttonType.equals(HatSwitchButtonType.UP)){
-            return joystick.getHatSwitchY() == 1;
-        }
-        else if(buttonType.equals(HatSwitchButtonType.DOWN)){
+	@Override
+	public boolean get() {
+		if (buttonType == HatSwitchButtonType.UP) {
+			return joystick.getHatSwitchY() == 1;
+		} else if(buttonType == HatSwitchButtonType.DOWN){
             return joystick.getHatSwitchY() == -1;
-        }
-        else if(buttonType.equals(HatSwitchButtonType.LEFT)){
+        } else if(buttonType == HatSwitchButtonType.LEFT){
             return joystick.getHatSwitchX() == -1;
-        }
-        else if(buttonType.equals(HatSwitchButtonType.RIGHT)){
+        } else if(buttonType == HatSwitchButtonType.RIGHT){
             return joystick.getHatSwitchX() == 1;
         }
+		
         return false;
-    }
-    
-    /**
+	}
+	
+	/**
      * Indicates the type of this HatSwitchButton.
      * @return The direction on the hat switch that is monitored by this button.
      */
     public HatSwitchButtonType getButtonType(){
         return buttonType;
     }
-    
-    /**
-     * Represents a direction on the hat switch that can be monitored by a
-     * HatSwitchButton.
-     */
-    public static final class HatSwitchButtonType{
-        private final byte value;
-        private final String name;
-        
-        /**
-         * Represents the up direction on the hat switch.
-         */
-        public static final HatSwitchButtonType UP = new HatSwitchButtonType((byte)0, "up");
-        
-        /**
-         * Represents the down direction on the hat switch.
-         */
-        public static final HatSwitchButtonType DOWN = new HatSwitchButtonType((byte)1, "down");
-        
-        /**
-         * Represents the left direction on the hat switch.
-         */
-        public static final HatSwitchButtonType LEFT = new HatSwitchButtonType((byte)2, "left");
-        
-        /**
-         * Represents the right direction on the hat switch.
-         */
-        public static final HatSwitchButtonType RIGHT = new HatSwitchButtonType((byte)3, "right");
-        
-        private HatSwitchButtonType(byte value, String name){
-            this.value = value;
-            this.name = name;
-        }
-        
-        private byte getValue(){
+	
+	public enum HatSwitchButtonType {
+		UP((byte) 0, "up"),
+		DOWN((byte) 1, "down"),
+		LEFT((byte) 2, "left"),
+		RIGHT((byte) 3, "right");
+		
+		private final byte value;
+		private final String name;
+		
+		HatSwitchButtonType(byte value, String name) {
+			this.value = value;
+			this.name = name;
+		}
+		
+		private byte getValue(){
             return value;
         }
         
@@ -99,28 +75,12 @@ public final class HatSwitchButton extends Button {
         }
         
         /**
-         * Indicates whether this HatSwitchButtonType is equal to another
-         * object.
-         * This object is equal to another if the other object is also
-         * a HatSwitchButtonType and if it represents the same direction
-         * on the hat switch as this object.
-         * @param other The object to be compared against this one for equality.
-         * @return {@code true} if the objects are equal as described above,
-         * {@code false} otherwise.
-         */
-        public boolean equals(Object other){
-            if(other instanceof HatSwitchButtonType){
-                return ((HatSwitchButtonType)other).getValue() == this.getValue();
-            }
-            return false;
-        }
-        
-        /**
          * Provides a human-readable String representation of this object.
          * @return A human-readable String representation of this object.
          */
         public String toString(){
             return "Hat Switch "+getName();
         }
-    }
+	}
+
 }
