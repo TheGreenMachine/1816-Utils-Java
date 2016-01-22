@@ -3,6 +3,7 @@ package com.edinarobotics.utils.sensors;
 import com.edinarobotics.utils.common.Updatable;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 /**
  * Implements a general analog absolute encoder. This class simplifies the
@@ -144,4 +145,15 @@ public class AnalogAbsoluteEncoder implements PIDSource, Updatable{
     public void update(){
         getAngleDegrees();
     }
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

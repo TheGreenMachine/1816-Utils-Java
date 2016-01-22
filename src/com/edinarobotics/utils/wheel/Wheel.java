@@ -59,10 +59,6 @@ public class Wheel implements Updatable, SpeedController {
         return isReversed;
     }
     
-    public void setReversed(boolean reversed){
-        this.isReversed = reversed;
-    }
-    
     /**
      * Sets the power of the speed controller.
      * @param power 
@@ -120,5 +116,16 @@ public class Wheel implements Updatable, SpeedController {
     public void pidWrite(double power) {
         set(power);
     }
+
+	@Override
+	public void setInverted(boolean isInverted) {
+        this.isReversed = isInverted;		
+	}
+
+	@Override
+	public boolean getInverted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
     
 }

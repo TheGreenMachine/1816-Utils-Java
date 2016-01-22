@@ -26,7 +26,6 @@ public class SpeedControlledWheel extends Wheel {
         this.GEAR_RATIO = gearRatio;
         this.encoder = encoder;
         this.maxWheelRPM = maxWheelRPM;
-        encoder.setPIDSourceParameter(PIDSource.PIDSourceParameter.kRate);
         encoder.setDistancePerPulse(rotationsPerPulse);
         //this.encoder.start();
         pidConfig = PIDTuningManager.getInstance().getPIDConfig(name);

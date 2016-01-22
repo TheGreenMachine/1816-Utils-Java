@@ -43,5 +43,16 @@ public class SpeedControllerMultiplexer implements SpeedController {
             speedController[i].pidWrite(output);
         }
     }
+
+	@Override
+	public void setInverted(boolean isInverted) {
+		
+	}
+
+	@Override
+	public boolean getInverted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
     
 }
