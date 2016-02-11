@@ -96,4 +96,10 @@ public class SpeedControllerWrapper implements SpeedController {
 			wheel.setPID(p, i, d);
 		}
 	}
+	
+	public void enableBrakeMode(boolean isBrakeMode) {
+		for (CANTalon wheel : wheels) {
+			wheel.enableBrakeMode(isBrakeMode);
+		}
+	}
 }
