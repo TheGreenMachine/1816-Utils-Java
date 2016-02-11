@@ -1,60 +1,26 @@
 package com.edinarobotics.utils.controllers;
 
-import com.edinarobotics.utils.wheel.Wheel;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class SpeedControllerWrapper implements SpeedController {
 
-	private Wheel wheel1, wheel2, wheel3, wheel4;
+	private List<CANTalon> wheels = new ArrayList<CANTalon>();
 	private boolean inverted;
-
+	
 	/**
-	 * Constructs a SpeedControllerWrapper object.
+	 *  Constructs a SpeedControllerWrapper object.
 	 * 
-	 * @param wheel1
-	 *            A wheel object.
-	 * @param wheel2
-	 *            A wheel object.
+	 * @param wheels
+	 * 			A collection of wheel objects.
 	 */
-	public SpeedControllerWrapper(Wheel wheel1, Wheel wheel2) {
-		this.wheel1 = wheel1;
-		this.wheel2 = wheel2;
-	}
-
-	/**
-	 * Constructs a SpeedControllerWrapper object.
-	 * 
-	 * @param wheel1
-	 *            A wheel object.
-	 * @param wheel2
-	 *            A wheel object.
-	 * @param wheel3
-	 *            A wheel object.
-	 */
-	public SpeedControllerWrapper(Wheel wheel1, Wheel wheel2, Wheel wheel3) {
-		this.wheel1 = wheel1;
-		this.wheel2 = wheel2;
-		this.wheel3 = wheel3;
-	}
-
-	/**
-	 * Constructs a SpeedControllerWrapper object.
-	 * 
-	 * @param wheel1
-	 *            A wheel object.
-	 * @param wheel2
-	 *            A wheel object.
-	 * @param wheel3
-	 *            A wheel object.
-	 * @param wheel4
-	 *            A wheel object.
-	 */
-	public SpeedControllerWrapper(Wheel wheel1, Wheel wheel2, Wheel wheel3, Wheel wheel4) {
-		this.wheel1 = wheel1;
-		this.wheel2 = wheel2;
-		this.wheel3 = wheel3;
-		this.wheel4 = wheel4;
+	public SpeedControllerWrapper(CANTalon... wheels) {
+		for (CANTalon wheel : wheels) {
+			this.wheels.add(wheel);
+		}
 	}
 
 	@Override
@@ -64,19 +30,17 @@ public class SpeedControllerWrapper implements SpeedController {
 
 	@Override
 	public void disable() {
-		if (wheel1 != null)
-			wheel1.disable();
-		if (wheel2 != null)
-			wheel2.disable();
-		if (wheel3 != null)
-			wheel3.disable();
-		if (wheel4 != null)
-			wheel4.disable();
+		for (CANTalon wheel : wheels) {
+			wheel.disable();
+		}
 	}
 
+	/**
+	 * Gets the speed that the speed controllers are traveling at.
+	 */
 	@Override
 	public double get() {
-		return wheel1.get();
+		return wheels.get(0).get();
 	}
 
 	/**
@@ -86,40 +50,25 @@ public class SpeedControllerWrapper implements SpeedController {
 	 */
 	@Override
 	public void set(double power) {
-		if (wheel1 != null)
-			wheel1.set(power);
-		if (wheel2 != null)
-			wheel2.set(power);
-		if (wheel3 != null)
-			wheel3.set(power);
-		if (wheel4 != null)
-			wheel4.set(power);
+		for (CANTalon wheel : wheels) {
+			wheel.set(power);
+		}
 	}
 
 	@Override
 	public void set(double d, byte b) {
-		if (wheel1 != null)
-			wheel1.set(d, b);
-		if (wheel2 != null)
-			wheel2.set(d, b);
-		if (wheel3 != null)
-			wheel3.set(d, b);
-		if (wheel4 != null)
-			wheel4.set(d, b);
+		for (CANTalon wheel : wheels) {
+			wheel.set(d, b);
+		}
 	}
 
 	/**
 	 * Stops all motors.
 	 */
 	public void stop() {
-		if (wheel1 != null)
-			wheel1.set(0.0);
-		if (wheel2 != null)
-			wheel2.set(0.0);
-		if (wheel3 != null)
-			wheel3.set(0.0);
-		if (wheel4 != null)
-			wheel4.set(0.0);
+		for (CANTalon wheel : wheels) {
+			wheel.set(0.0);
+		}
 	}
 
 	/**
@@ -127,18 +76,24 @@ public class SpeedControllerWrapper implements SpeedController {
 	 * 
 	 * @param inverted
 	 */
-	public void invert(boolean inverted) {
-		this.inverted = inverted;
-	}
-
 	@Override
 	public void setInverted(boolean isInverted) {
-		
+		for (CANTalon wheel : wheels) {
+			wheel.setInverted(isInverted);
+		}
 	}
 
+	/**
+	 * Gets whether the wheels are inverted.
+	 */
 	@Override
 	public boolean getInverted() {
-		// TODO Auto-generated method stub
-		return false;
+		return wheels.get(0).getInverted();
+	}
+	
+	public void setPID(double p, double i, double d) {
+		for (CANTalon wheel : wheels) {
+			wheel.setPID(p, i, d);
+		}
 	}
 }
