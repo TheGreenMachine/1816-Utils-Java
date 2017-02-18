@@ -3,11 +3,12 @@ package com.edinarobotics.utils.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class SpeedControllerWrapper implements SpeedController {
-
+	
 	private List<CANTalon> wheels = new ArrayList<CANTalon>();
 	private boolean inverted;
 	
@@ -55,13 +56,6 @@ public class SpeedControllerWrapper implements SpeedController {
 		}
 	}
 
-	@Override
-	public void set(double d, byte b) {
-		for (CANTalon wheel : wheels) {
-			wheel.set(d, b);
-		}
-	}
-
 	/**
 	 * Stops all motors.
 	 */
@@ -101,5 +95,11 @@ public class SpeedControllerWrapper implements SpeedController {
 		for (CANTalon wheel : wheels) {
 			wheel.enableBrakeMode(isBrakeMode);
 		}
+	}
+
+	@Override
+	public void stopMotor() {
+		// TODO Auto-generated method stub
+		
 	}
 }

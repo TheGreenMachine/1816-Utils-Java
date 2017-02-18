@@ -9,7 +9,7 @@ public class PressureSensor {
 	
 	private static final double DEFAULT_VOLTAGE = 5.0;
 	private final int SLOPE = 250;
-	private final int Y_INTERCEPT = -25;
+	private final int Y_INTERCEPT = -15;
 	
 	/**
 	 * Creates a new Pressure Sensor connected to the given analog channel.

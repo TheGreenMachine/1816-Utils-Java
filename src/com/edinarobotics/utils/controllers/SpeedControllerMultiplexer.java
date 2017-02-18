@@ -20,12 +20,6 @@ public class SpeedControllerMultiplexer implements SpeedController {
         return speedController[0].get();
     }
 
-    public void set(double speed, byte syncGroup) {
-        for(int i = 0;i < speedController.length;i++) {
-            speedController[i].set(speed, syncGroup);
-        }
-    }
-
     public void set(double speed) {
         for(int i = 0;i < speedController.length;i++) {
             speedController[i].set(speed);
@@ -53,6 +47,12 @@ public class SpeedControllerMultiplexer implements SpeedController {
 	public boolean getInverted() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void stopMotor() {
+		// TODO Auto-generated method stub
+		
 	}
     
 }

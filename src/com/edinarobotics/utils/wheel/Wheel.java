@@ -2,6 +2,7 @@ package com.edinarobotics.utils.wheel;
 
 import com.edinarobotics.utils.common.Updatable;
 import com.edinarobotics.utils.math.Math1816;
+
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
@@ -126,6 +127,12 @@ public class Wheel implements Updatable, SpeedController {
 	public boolean getInverted() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void stopMotor() {
+		// TODO Auto-generated method stub
+		
 	}
     
 }
