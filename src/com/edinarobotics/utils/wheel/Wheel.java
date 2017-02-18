@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  * Wheel represents an abstract wheel that has a {@link SpeedController}
  * implementation.
  */
-public class Wheel implements Updatable, SpeedController {
+public abstract class Wheel implements Updatable, SpeedController {
     private SpeedController speedController;
     private String name;
     private double power;
@@ -125,14 +125,17 @@ public class Wheel implements Updatable, SpeedController {
 
 	@Override
 	public boolean getInverted() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void stopMotor() {
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
 		
+=======
+		setPower(0);
+>>>>>>> df08d9b80449e12e25c044d5d51290bdc846b08b
 	}
     
 }

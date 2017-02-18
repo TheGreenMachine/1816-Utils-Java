@@ -2,7 +2,7 @@ package com.edinarobotics.utils.controllers;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class SpeedControllerMultiplexer implements SpeedController {
+public abstract class SpeedControllerMultiplexer implements SpeedController {
     SpeedController[] speedController;
     
     public SpeedControllerMultiplexer(SpeedController[] speedController) {
@@ -45,14 +45,18 @@ public class SpeedControllerMultiplexer implements SpeedController {
 
 	@Override
 	public boolean getInverted() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void stopMotor() {
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
 		
+=======
+		set(0);
+>>>>>>> df08d9b80449e12e25c044d5d51290bdc846b08b
 	}
     
+
 }

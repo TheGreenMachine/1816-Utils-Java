@@ -99,7 +99,11 @@ public class SpeedControllerWrapper implements SpeedController {
 
 	@Override
 	public void stopMotor() {
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
 		
+=======
+		stop();
+>>>>>>> df08d9b80449e12e25c044d5d51290bdc846b08b
 	}
 }
