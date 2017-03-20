@@ -12,17 +12,30 @@ public class UltrasonicSensor {
     
     private final boolean isScaled;
     
+    /**
+     * Creates an Ultrasonic Sensor object.
+     * @param sensorChannel The channel the sensor is wired into.
+     */
     public UltrasonicSensor(int sensorChannel) {
         AnalogInput = new AnalogInput(sensorChannel);
         isScaled = false;
     }
 
+    /**
+     * Creates an Ultrasonic Sensor object with a scaler value.
+     * @param sensorChannel The channel the sensor is wired into.
+     * @param scale The scaling factor for ouputs.
+     */
     public UltrasonicSensor(int sensorChannel, double scale) {
         AnalogInput = new AnalogInput(sensorChannel);
         this.scale = scale;
         isScaled = true;
     }
     
+    /**
+     * Returns your curernt distance from the object in front of the sensor.
+     * @return Your current distance from the object in front of the sensor.
+     */
     public double getDistance() {
         double toReturn;
         if(isScaled) {
@@ -39,6 +52,10 @@ public class UltrasonicSensor {
         return averageArr();
     }
     
+    /**
+     * Returns the current averageArr value.
+     * @return The current averageArr value.
+     */
     private double averageArr(){
         double[] workingArray = Arrays.copyOf(distances, distances.length);
         Arrays.sort(workingArray);
@@ -51,6 +68,10 @@ public class UltrasonicSensor {
         return sum / ((highIndex - lowIndex) * 1.0);
     }
     
+    /**
+     * Returns the current voltage that the sensor is operating at.
+     * @return The current voltage that the sensor is operating at.
+     */
     public double getVoltage() {
         return AnalogInput.getVoltage();
     }

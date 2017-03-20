@@ -50,12 +50,7 @@ public abstract class SpeedControllerMultiplexer implements SpeedController {
 
 	@Override
 	public void stopMotor() {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		
-=======
 		set(0);
->>>>>>> df08d9b80449e12e25c044d5d51290bdc846b08b
 	}
     
 

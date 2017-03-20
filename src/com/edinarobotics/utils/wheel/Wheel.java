@@ -118,24 +118,30 @@ public abstract class Wheel implements Updatable, SpeedController {
         set(power);
     }
 
+    /**
+     * Sets the motor to be inverted.
+     * 
+     * @param isInverted Whether the motor should be inverted or not.
+     */
 	@Override
 	public void setInverted(boolean isInverted) {
         this.isReversed = isInverted;		
 	}
 
+	/**
+	 * Returns if the motor is inverted.
+	 */
 	@Override
 	public boolean getInverted() {
-		return false;
+		return isReversed;
 	}
 
+	/**
+	 * Stops the motor by setting the power to zero.
+	 */
 	@Override
 	public void stopMotor() {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		
-=======
 		setPower(0);
->>>>>>> df08d9b80449e12e25c044d5d51290bdc846b08b
 	}
     
 }
